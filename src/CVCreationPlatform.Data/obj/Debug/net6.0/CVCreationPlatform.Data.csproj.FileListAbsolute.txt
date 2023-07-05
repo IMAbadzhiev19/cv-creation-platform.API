@@ -1,0 +1,14 @@
+D:\AIBESTProject\cv-creation-platform.API\src\CVCreationPlatform.Data\obj\Debug\net6.0\CVCreationPlatform.Data.csproj.AssemblyReference.cache
+D:\AIBESTProject\cv-creation-platform.API\src\CVCreationPlatform.Data\obj\Debug\net6.0\CVCreationPlatform.Data.GeneratedMSBuildEditorConfig.editorconfig
+D:\AIBESTProject\cv-creation-platform.API\src\CVCreationPlatform.Data\obj\Debug\net6.0\CVCreationPlatform.Data.AssemblyInfoInputs.cache
+D:\AIBESTProject\cv-creation-platform.API\src\CVCreationPlatform.Data\obj\Debug\net6.0\CVCreationPlatform.Data.AssemblyInfo.cs
+D:\AIBESTProject\cv-creation-platform.API\src\CVCreationPlatform.Data\obj\Debug\net6.0\CVCreationPlatform.Data.csproj.CoreCompileInputs.cache
+D:\AIBESTProject\cv-creation-platform.API\src\CVCreationPlatform.Data\bin\Debug\net6.0\CVCreationPlatform.Data.deps.json
+D:\AIBESTProject\cv-creation-platform.API\src\CVCreationPlatform.Data\bin\Debug\net6.0\CVCreationPlatform.Data.runtimeconfig.json
+D:\AIBESTProject\cv-creation-platform.API\src\CVCreationPlatform.Data\bin\Debug\net6.0\CVCreationPlatform.Data.dll
+D:\AIBESTProject\cv-creation-platform.API\src\CVCreationPlatform.Data\bin\Debug\net6.0\CVCreationPlatform.Data.pdb
+D:\AIBESTProject\cv-creation-platform.API\src\CVCreationPlatform.Data\obj\Debug\net6.0\CVCreationPlatform.Data.dll
+D:\AIBESTProject\cv-creation-platform.API\src\CVCreationPlatform.Data\obj\Debug\net6.0\refint\CVCreationPlatform.Data.dll
+D:\AIBESTProject\cv-creation-platform.API\src\CVCreationPlatform.Data\obj\Debug\net6.0\CVCreationPlatform.Data.pdb
+D:\AIBESTProject\cv-creation-platform.API\src\CVCreationPlatform.Data\obj\Debug\net6.0\CVCreationPlatform.Data.genruntimeconfig.cache
+D:\AIBESTProject\cv-creation-platform.API\src\CVCreationPlatform.Data\obj\Debug\net6.0\ref\CVCreationPlatform.Data.dll
