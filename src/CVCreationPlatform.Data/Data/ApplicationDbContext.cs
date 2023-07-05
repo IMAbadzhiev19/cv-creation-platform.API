@@ -1,4 +1,5 @@
-﻿using Data.Models.CV;
+﻿using Data.Models.Auth;
+using Data.Models.CV;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,11 +7,13 @@ namespace Data.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+            : base(options)
         {
-            optionsBuilder.UseSqlServer(@"Server=.\SQLEXPRESS;Database=SchoolDB;Trusted_Connection=True;");
+            
         }
 
+        public DbSet<User> Users { get; set; }
         public DbSet<Cv> Cvs { get; set; }
         public DbSet<Section> Sections { get; set; }
         public DbSet<UserData> UsersData { get; set; }

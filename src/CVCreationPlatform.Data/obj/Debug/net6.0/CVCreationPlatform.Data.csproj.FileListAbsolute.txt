@@ -12,3 +12,17 @@ D:\AIBESTProject\cv-creation-platform.API\src\CVCreationPlatform.Data\obj\Debug\
 D:\AIBESTProject\cv-creation-platform.API\src\CVCreationPlatform.Data\obj\Debug\net6.0\CVCreationPlatform.Data.pdb
 D:\AIBESTProject\cv-creation-platform.API\src\CVCreationPlatform.Data\obj\Debug\net6.0\CVCreationPlatform.Data.genruntimeconfig.cache
 D:\AIBESTProject\cv-creation-platform.API\src\CVCreationPlatform.Data\obj\Debug\net6.0\ref\CVCreationPlatform.Data.dll
+C:\Users\User\source\repos\cv-creation-platform.API\src\CVCreationPlatform.Data\bin\Debug\net6.0\CVCreationPlatform.Data.deps.json
+C:\Users\User\source\repos\cv-creation-platform.API\src\CVCreationPlatform.Data\bin\Debug\net6.0\CVCreationPlatform.Data.runtimeconfig.json
+C:\Users\User\source\repos\cv-creation-platform.API\src\CVCreationPlatform.Data\bin\Debug\net6.0\CVCreationPlatform.Data.dll
+C:\Users\User\source\repos\cv-creation-platform.API\src\CVCreationPlatform.Data\bin\Debug\net6.0\CVCreationPlatform.Data.pdb
+C:\Users\User\source\repos\cv-creation-platform.API\src\CVCreationPlatform.Data\obj\Debug\net6.0\CVCreationPlatform.Data.csproj.AssemblyReference.cache
+C:\Users\User\source\repos\cv-creation-platform.API\src\CVCreationPlatform.Data\obj\Debug\net6.0\CVCreationPlatform.Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\source\repos\cv-creation-platform.API\src\CVCreationPlatform.Data\obj\Debug\net6.0\CVCreationPlatform.Data.AssemblyInfoInputs.cache
+C:\Users\User\source\repos\cv-creation-platform.API\src\CVCreationPlatform.Data\obj\Debug\net6.0\CVCreationPlatform.Data.AssemblyInfo.cs
+C:\Users\User\source\repos\cv-creation-platform.API\src\CVCreationPlatform.Data\obj\Debug\net6.0\CVCreationPlatform.Data.csproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\cv-creation-platform.API\src\CVCreationPlatform.Data\obj\Debug\net6.0\CVCreationPlatform.Data.dll
+C:\Users\User\source\repos\cv-creation-platform.API\src\CVCreationPlatform.Data\obj\Debug\net6.0\refint\CVCreationPlatform.Data.dll
+C:\Users\User\source\repos\cv-creation-platform.API\src\CVCreationPlatform.Data\obj\Debug\net6.0\CVCreationPlatform.Data.pdb
+C:\Users\User\source\repos\cv-creation-platform.API\src\CVCreationPlatform.Data\obj\Debug\net6.0\CVCreationPlatform.Data.genruntimeconfig.cache
+C:\Users\User\source\repos\cv-creation-platform.API\src\CVCreationPlatform.Data\obj\Debug\net6.0\ref\CVCreationPlatform.Data.dll
