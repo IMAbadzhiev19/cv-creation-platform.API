@@ -1,10 +1,14 @@
 ﻿using Data.Models.Auth;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace Data.Models.CV;
 
 public class Section
 {
-    public int SectionId { get; set; }
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; set; }
     public string Heading { get; set; }
     public string? Subheading { get; set; }
     public string Data { get; set; }

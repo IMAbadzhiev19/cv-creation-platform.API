@@ -1,16 +1,20 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Data.Models.CV;
 
 public class UserEmployment
 {
-    public int UserEmploymentId { get; set; }
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; set; }
     public string Position { get; set; }
-    public DateOnly StartDate { get; set; }
-    public DateOnly EndDate { get; set; }
+    public DateTime StartDate { get; set; }
+    public DateTime EndDate { get; set; }
     public string City { get; set; }
     public string Description { get; set; }
 
+    [ForeignKey(nameof(UserData))]
     public int UserDataId { get; set; }
     public UserData UserData { get; set; }
 }

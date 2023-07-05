@@ -5,6 +5,11 @@ namespace CVCreationPlatform.Services.Models.Auth
     public class RegistrationModel
     {
         [Required(ErrorMessage = "First name is required")]
+        [MaxLength(15)]
+        [MinLength(5)]
+        public string Username { get; set; }
+
+        [Required(ErrorMessage = "First name is required")]
         [RegularExpression("^[A-Za-zА-Яа-я]{2,50}$")]
         public string FirstName { get; set; }
 

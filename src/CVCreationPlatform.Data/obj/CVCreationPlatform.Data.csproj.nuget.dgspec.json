@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\User\\source\\repos\\cv-creation-platform.API\\src\\CVCreationPlatform.Data\\CVCreationPlatform.Data.csproj": {}
+    "C:\\Users\\User\\OneDrive\\Работен плот\\cv-creation-platform.API\\src\\CVCreationPlatform.Data\\CVCreationPlatform.Data.csproj": {}
   },
   "projects": {
-    "C:\\Users\\User\\source\\repos\\cv-creation-platform.API\\src\\CVCreationPlatform.Data\\CVCreationPlatform.Data.csproj": {
+    "C:\\Users\\User\\OneDrive\\Работен плот\\cv-creation-platform.API\\src\\CVCreationPlatform.Data\\CVCreationPlatform.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\User\\source\\repos\\cv-creation-platform.API\\src\\CVCreationPlatform.Data\\CVCreationPlatform.Data.csproj",
+        "projectUniqueName": "C:\\Users\\User\\OneDrive\\Работен плот\\cv-creation-platform.API\\src\\CVCreationPlatform.Data\\CVCreationPlatform.Data.csproj",
         "projectName": "CVCreationPlatform.Data",
-        "projectPath": "C:\\Users\\User\\source\\repos\\cv-creation-platform.API\\src\\CVCreationPlatform.Data\\CVCreationPlatform.Data.csproj",
+        "projectPath": "C:\\Users\\User\\OneDrive\\Работен плот\\cv-creation-platform.API\\src\\CVCreationPlatform.Data\\CVCreationPlatform.Data.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\User\\source\\repos\\cv-creation-platform.API\\src\\CVCreationPlatform.Data\\obj\\",
+        "outputPath": "C:\\Users\\User\\OneDrive\\Работен плот\\cv-creation-platform.API\\src\\CVCreationPlatform.Data\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

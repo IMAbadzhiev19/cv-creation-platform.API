@@ -5,13 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Data.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
-        {
-            
-        }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
         public DbSet<User> Users { get; set; }
         public DbSet<Cv> Cvs { get; set; }
@@ -20,5 +16,43 @@ namespace Data.Data
         public DbSet<UserEducation> UsersEducation { get; set; }
         public DbSet<UserEmployment> UsersEmployments { get; set; }
         public DbSet<UserPersonalDetails> UsersPersonalDetails { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<UserData>()
+                .Property(ud => ud.Skills)
+                .HasConversion(
+                    skills => string.Join(", ", skills),
+                    skillsString => skillsString.Split(", ", StringSplitOptions.RemoveEmptyEntries).ToList()
+                );
+
+            modelBuilder.Entity<UserData>()
+                .Property(ud => ud.Certifications)
+                .HasConversion(
+                    certifications => string.Join(", ", certifications),
+                    certificationsString => certificationsString.Split(", ", StringSplitOptions.RemoveEmptyEntries).ToList()
+                );
+
+            modelBuilder.Entity<UserData>()
+                .Property(ud => ud.Achievements)
+                .HasConversion(
+                    achievements => string.Join(", ", achievements),
+                    achievementsString => achievementsString.Split(", ", StringSplitOptions.RemoveEmptyEntries).ToList()
+                );
+
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.UserData)
+                .WithOne()
+                .HasForeignKey<UserData>(ud => ud.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.Cvs)
+                .WithOne(cv => cv.User)
+                .HasForeignKey(cv => cv.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
