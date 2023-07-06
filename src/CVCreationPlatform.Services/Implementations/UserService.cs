@@ -21,15 +21,9 @@ public class UserService : IUserService
     {
         var user = new User()
         {
-            Id = Guid.NewGuid(),
             Username = registrationModel.Username,
-            FirstName = registrationModel.FirstName,
-            LastName = registrationModel.LastName,
             Email = registrationModel.Email,
-            PhoneNumber = registrationModel.PhoneNumber,
             Password = HashPassword(registrationModel.Password),
-            UserData = new UserData(),
-            Cvs = new HashSet<Cv>(),
         };
 
         await this._context.AddAsync(user);

@@ -21,7 +21,6 @@ public class UserController : ControllerBase
     {
         try
         {
-            Console.WriteLine(registrationModel.FirstName);
             await _userService.CreateUserAsync(registrationModel);
             return Ok();
         }

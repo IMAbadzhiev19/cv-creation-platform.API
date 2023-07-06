@@ -12,7 +12,6 @@ namespace CVCreationPlatform.API
 			builder.Configuration.AddJsonFile("appsettings.json");
 
 			var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-            Console.WriteLine(connectionString);
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
 				.UseSqlServer(connectionString)
 				.Options;
