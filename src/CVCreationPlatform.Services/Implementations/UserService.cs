@@ -1,11 +1,9 @@
-﻿using CVCreationPlatform.Services.Contracts;
-using CVCreationPlatform.Services.Models.Auth;
+﻿using CVCreationPlatform.AuthService.Contracts;
+using CVCreationPlatform.AuthService.Models.Auth;
 using Data.Data;
 using Data.Models.Auth;
-using System.Security.Cryptography;
-using System.Text;
 
-namespace CVCreationPlatform.Services.Services;
+namespace CVCreationPlatform.AuthService.Implementations;
 
 public class UserService : IUserService
 {

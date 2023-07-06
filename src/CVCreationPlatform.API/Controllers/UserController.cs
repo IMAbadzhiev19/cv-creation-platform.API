@@ -1,6 +1,6 @@
-﻿using CVCreationPlatform.Services.Contracts;
-using CVCreationPlatform.Services.Models.Auth;
-using CVCreationPlatform.Services.Services;
+﻿using CVCreationPlatform.AuthService.Contracts;
+using CVCreationPlatform.AuthService.Implementations;
+using CVCreationPlatform.AuthService.Models.Auth;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CVCreationPlatform.API.Controllers;

@@ -1,7 +1,7 @@
-﻿using CVCreationPlatform.Services.Models.Auth;
+﻿using CVCreationPlatform.AuthService.Models.Auth;
 using Data.Models.Auth;
 
-namespace CVCreationPlatform.Services.Contracts;
+namespace CVCreationPlatform.AuthService.Contracts;
 
 public interface IUserService
 {

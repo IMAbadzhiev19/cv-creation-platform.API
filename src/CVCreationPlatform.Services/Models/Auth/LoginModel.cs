@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CVCreationPlatform.Services.Models.Auth;
+namespace CVCreationPlatform.AuthService.Models.Auth;
 
 public class LoginModel
 {

@@ -9,6 +9,7 @@
       "CVCreationPlatform.API/1.0.0": {
         "dependencies": {
           "CVCreationPlatform.AuthService": "1.0.0",
+          "CVCreationPlatform.JWTService": "1.0.0",
           "Microsoft.EntityFrameworkCore.Design": "7.0.8",
           "Microsoft.EntityFrameworkCore.SqlServer": "7.0.8",
           "Swashbuckle.AspNetCore": "6.2.3"
@@ -825,6 +826,11 @@
         "runtime": {
           "CVCreationPlatform.Data.dll": {}
         }
+      },
+      "CVCreationPlatform.JWTService/1.0.0": {
+        "runtime": {
+          "CVCreationPlatform.JWTService.dll": {}
+        }
       }
     }
   },
@@ -1393,6 +1399,11 @@
       "sha512": ""
     },
     "CVCreationPlatform.Data/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "CVCreationPlatform.JWTService/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

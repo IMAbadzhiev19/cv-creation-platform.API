@@ -259,3 +259,5 @@ C:\Users\User\source\repos\cv-creation-platform.API\src\CVCreationPlatform.API\b
 C:\Users\User\source\repos\cv-creation-platform.API\src\CVCreationPlatform.API\bin\Debug\net6.0\BCrypt.Net-Next.dll
 C:\Users\User\source\repos\cv-creation-platform.API\src\CVCreationPlatform.API\bin\Debug\net6.0\CVCreationPlatform.AuthService.dll
 C:\Users\User\source\repos\cv-creation-platform.API\src\CVCreationPlatform.API\bin\Debug\net6.0\CVCreationPlatform.AuthService.pdb
+C:\Users\User\source\repos\cv-creation-platform.API\src\CVCreationPlatform.API\bin\Debug\net6.0\CVCreationPlatform.JWTService.dll
+C:\Users\User\source\repos\cv-creation-platform.API\src\CVCreationPlatform.API\bin\Debug\net6.0\CVCreationPlatform.JWTService.pdb
