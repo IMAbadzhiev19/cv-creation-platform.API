@@ -20,7 +20,7 @@ public class UserController : ControllerBase
     {
         try
         {
-            await _userService.CreateUserAsync(registrationModel);
+            await _userService.RegisterAsync(registrationModel);
             return Ok();
         }
         catch (Exception ex)

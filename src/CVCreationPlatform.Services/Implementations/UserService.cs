@@ -16,7 +16,7 @@ public class UserService : IUserService
         this._context = context;
     }
 
-    public async Task CreateUserAsync(RegistrationModel registrationModel)
+    public async Task RegisterAsync(RegistrationModel registrationModel)
     {
         var user = new User()
         {
@@ -46,7 +46,7 @@ public class UserService : IUserService
         if (user == null)
             throw new ArgumentException("User with this username does not exist");
 
-        if (HashPassword(loginModel.Password) != user.Password)
+        if (!BCrypt.Net.BCrypt.Verify(loginModel.Password, user.Password))
             throw new ArgumentException("User with this password does not exist");
 
         return true;
@@ -54,12 +54,9 @@ public class UserService : IUserService
 
     private string HashPassword(string password)
     {
-        byte[] passBytes = Encoding.Unicode.GetBytes(password);
-        using (SHA256 sha256 = SHA256.Create())
-        {
-            byte[] hashBytes = sha256.ComputeHash(passBytes);
-            string shaString = BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
-            return shaString;
-        }
+        string passwordHash
+            = BCrypt.Net.BCrypt.HashPassword(password);
+
+        return passwordHash;
     }
 }

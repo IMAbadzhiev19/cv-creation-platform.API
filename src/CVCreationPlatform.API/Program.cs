@@ -1,3 +1,4 @@
+using CVCreationPlatform.Services.Contracts;
 using CVCreationPlatform.Services.Services;
 using Data.Data;
 using Microsoft.EntityFrameworkCore;
@@ -23,7 +24,7 @@ namespace CVCreationPlatform.API
                         builder.MigrationsAssembly("CVCreationPlatform.API");
                     })
                 );
-            builder.Services.AddScoped<UserService>();
+            builder.Services.AddScoped<IUserService, UserService>();
 			builder.Services.AddControllers();
 
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

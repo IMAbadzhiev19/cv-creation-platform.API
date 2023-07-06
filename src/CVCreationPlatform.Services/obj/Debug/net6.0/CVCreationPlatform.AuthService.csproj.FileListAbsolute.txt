@@ -1,0 +1,15 @@
+C:\Users\User\source\repos\cv-creation-platform.API\src\CVCreationPlatform.Services\bin\Debug\net6.0\CVCreationPlatform.AuthService.deps.json
+C:\Users\User\source\repos\cv-creation-platform.API\src\CVCreationPlatform.Services\bin\Debug\net6.0\CVCreationPlatform.AuthService.dll
+C:\Users\User\source\repos\cv-creation-platform.API\src\CVCreationPlatform.Services\bin\Debug\net6.0\CVCreationPlatform.AuthService.pdb
+C:\Users\User\source\repos\cv-creation-platform.API\src\CVCreationPlatform.Services\bin\Debug\net6.0\CVCreationPlatform.Data.dll
+C:\Users\User\source\repos\cv-creation-platform.API\src\CVCreationPlatform.Services\bin\Debug\net6.0\CVCreationPlatform.Data.pdb
+C:\Users\User\source\repos\cv-creation-platform.API\src\CVCreationPlatform.Services\obj\Debug\net6.0\CVCreationPlatform.AuthService.csproj.AssemblyReference.cache
+C:\Users\User\source\repos\cv-creation-platform.API\src\CVCreationPlatform.Services\obj\Debug\net6.0\CVCreationPlatform.AuthService.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\source\repos\cv-creation-platform.API\src\CVCreationPlatform.Services\obj\Debug\net6.0\CVCreationPlatform.AuthService.AssemblyInfoInputs.cache
+C:\Users\User\source\repos\cv-creation-platform.API\src\CVCreationPlatform.Services\obj\Debug\net6.0\CVCreationPlatform.AuthService.AssemblyInfo.cs
+C:\Users\User\source\repos\cv-creation-platform.API\src\CVCreationPlatform.Services\obj\Debug\net6.0\CVCreationPlatform.AuthService.csproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\cv-creation-platform.API\src\CVCreationPlatform.Services\obj\Debug\net6.0\CVCreationPlatform.AuthService.csproj.CopyComplete
+C:\Users\User\source\repos\cv-creation-platform.API\src\CVCreationPlatform.Services\obj\Debug\net6.0\CVCreationPlatform.AuthService.dll
+C:\Users\User\source\repos\cv-creation-platform.API\src\CVCreationPlatform.Services\obj\Debug\net6.0\refint\CVCreationPlatform.AuthService.dll
+C:\Users\User\source\repos\cv-creation-platform.API\src\CVCreationPlatform.Services\obj\Debug\net6.0\CVCreationPlatform.AuthService.pdb
+C:\Users\User\source\repos\cv-creation-platform.API\src\CVCreationPlatform.Services\obj\Debug\net6.0\ref\CVCreationPlatform.AuthService.dll

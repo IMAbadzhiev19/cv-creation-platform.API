@@ -8,7 +8,7 @@
     ".NETCoreApp,Version=v6.0": {
       "CVCreationPlatform.API/1.0.0": {
         "dependencies": {
-          "CVCreationPlatform.Services": "1.0.0",
+          "CVCreationPlatform.AuthService": "1.0.0",
           "Microsoft.EntityFrameworkCore.Design": "7.0.8",
           "Microsoft.EntityFrameworkCore.SqlServer": "7.0.8",
           "Swashbuckle.AspNetCore": "6.2.3"
@@ -48,6 +48,14 @@
           "lib/netstandard2.0/Azure.Identity.dll": {
             "assemblyVersion": "1.6.0.0",
             "fileVersion": "1.600.22.20503"
+          }
+        }
+      },
+      "BCrypt.Net-Next/4.0.3": {
+        "runtime": {
+          "lib/net6.0/BCrypt.Net-Next.dll": {
+            "assemblyVersion": "4.0.3.0",
+            "fileVersion": "4.0.3.0"
           }
         }
       },
@@ -799,6 +807,15 @@
           }
         }
       },
+      "CVCreationPlatform.AuthService/1.0.0": {
+        "dependencies": {
+          "BCrypt.Net-Next": "4.0.3",
+          "CVCreationPlatform.Data": "1.0.0"
+        },
+        "runtime": {
+          "CVCreationPlatform.AuthService.dll": {}
+        }
+      },
       "CVCreationPlatform.Data/1.0.0": {
         "dependencies": {
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "6.0.19",
@@ -807,14 +824,6 @@
         },
         "runtime": {
           "CVCreationPlatform.Data.dll": {}
-        }
-      },
-      "CVCreationPlatform.Services/1.0.0": {
-        "dependencies": {
-          "CVCreationPlatform.Data": "1.0.0"
-        },
-        "runtime": {
-          "CVCreationPlatform.Services.dll": {}
         }
       }
     }
@@ -838,6 +847,13 @@
       "sha512": "sha512-EycyMsb6rD2PK9P0SyibFfEhvWWttdrYhyPF4f41uzdB/44yQlV+2Wehxyg489Rj6gbPvSPgbKq0xsHJBhipZA==",
       "path": "azure.identity/1.6.0",
       "hashPath": "azure.identity.1.6.0.nupkg.sha512"
+    },
+    "BCrypt.Net-Next/4.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-W+U9WvmZQgi5cX6FS5GDtDoPzUCV4LkBLkywq/kRZhuDwcbavOzcDAr3LXJFqHUi952Yj3LEYoWW0jbEUQChsA==",
+      "path": "bcrypt.net-next/4.0.3",
+      "hashPath": "bcrypt.net-next.4.0.3.nupkg.sha512"
     },
     "Humanizer.Core/2.14.1": {
       "type": "package",
@@ -1371,12 +1387,12 @@
       "path": "system.windows.extensions/5.0.0",
       "hashPath": "system.windows.extensions.5.0.0.nupkg.sha512"
     },
-    "CVCreationPlatform.Data/1.0.0": {
+    "CVCreationPlatform.AuthService/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "CVCreationPlatform.Services/1.0.0": {
+    "CVCreationPlatform.Data/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

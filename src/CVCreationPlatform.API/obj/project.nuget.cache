@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "tu7CCoJH3pYjT1AqAleT+x9rI9aD1LaZ6nzs5dKQApRAHb26AzLRoEDyyEwLhJhUigrnGyKtc+F6M4OTCxn8cQ==",
+  "dgSpecHash": "44Prw4+Al/RUOK58To7isuDAuC3DYxI4Ao6O4JDs6Q3bJPJPo7dX5UlF+X9gdiTUJrGuB25+MyZUq/GPQQZ2ag==",
   "success": true,
   "projectFilePath": "C:\\Users\\User\\source\\repos\\cv-creation-platform.API\\src\\CVCreationPlatform.API\\CVCreationPlatform.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\User\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
+    "C:\\Users\\User\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\6.0.19\\microsoft.aspnetcore.cryptography.internal.6.0.19.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\6.0.19\\microsoft.aspnetcore.cryptography.keyderivation.6.0.19.nupkg.sha512",

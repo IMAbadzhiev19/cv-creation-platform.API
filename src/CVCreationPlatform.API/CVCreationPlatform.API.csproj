@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CVCreationPlatform.Services\CVCreationPlatform.Services.csproj" />
+    <ProjectReference Include="..\CVCreationPlatform.Services\CVCreationPlatform.AuthService.csproj" />
   </ItemGroup>
 
 </Project>
