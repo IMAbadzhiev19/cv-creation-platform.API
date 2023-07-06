@@ -16,7 +16,7 @@ public class UserController : ControllerBase
         => (_logger, _userService) = (logger, userService);
 
     [HttpPost("register")]
-    public async Task<IActionResult> Register([FromBody] RegistrationModel registrationModel)
+    public async Task<IActionResult> Register([FromForm] RegistrationModel registrationModel)
     {
         try
         {
@@ -44,7 +44,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] LoginModel loginModel)
+    public async Task<IActionResult> Login([FromForm] LoginModel loginModel)
     {
         try
         {
