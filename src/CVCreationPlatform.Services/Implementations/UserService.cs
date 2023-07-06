@@ -2,7 +2,6 @@
 using CVCreationPlatform.Services.Models.Auth;
 using Data.Data;
 using Data.Models.Auth;
-using Data.Models.CV;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -29,7 +28,7 @@ public class UserService : IUserService
         await this._context.AddAsync(user);
         await this._context.SaveChangesAsync();
     }
-    public async Task<User> GetUserAsync(Guid id)
+    public async Task<User> GetUserAsync(int id)
     {
         var user = await this._context.Users.FindAsync(id);
         
@@ -40,8 +39,20 @@ public class UserService : IUserService
 
         return user;
     }
+    public async Task<bool> CheckLoginInformationAsync(LoginModel loginModel)
+    {
+        var user = this._context.Users.Where(u => u.Username == loginModel.Username).FirstOrDefault();
+        
+        if (user == null)
+            throw new ArgumentException("User with this username does not exist");
 
-    public string HashPassword(string password)
+        if (HashPassword(loginModel.Password) != user.Password)
+            throw new ArgumentException("User with this password does not exist");
+
+        return true;
+    }
+
+    private string HashPassword(string password)
     {
         byte[] passBytes = Encoding.Unicode.GetBytes(password);
         using (SHA256 sha256 = SHA256.Create())

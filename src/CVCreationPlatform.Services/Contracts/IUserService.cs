@@ -6,6 +6,6 @@ namespace CVCreationPlatform.Services.Contracts;
 public interface IUserService
 {
     Task CreateUserAsync(RegistrationModel registrationModel);
-    Task<User> GetUserAsync(Guid id);
-    string HashPassword(string password);
+    Task<User> GetUserAsync(int id);
+    Task<bool> CheckLoginInformationAsync(LoginModel loginModel);
 }
