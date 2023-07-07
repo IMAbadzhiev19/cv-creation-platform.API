@@ -16,7 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CVCreationPlatform.JWTService\CVCreationPlatform.JWTService.csproj" />
     <ProjectReference Include="..\CVCreationPlatform.Services\CVCreationPlatform.AuthService.csproj" />
   </ItemGroup>
 

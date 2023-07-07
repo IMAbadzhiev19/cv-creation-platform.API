@@ -11,9 +11,10 @@ public class UserController : ControllerBase
 {
     private readonly ILogger<UserController> _logger;
     private readonly IUserService _userService;
+    private readonly IJWTService _jWTService;
 
-    public UserController(ILogger<UserController> logger, IUserService userService)
-        => (_logger, _userService) = (logger, userService);
+    public UserController(ILogger<UserController> logger, IUserService userService, IJWTService jwtService)
+        => (_logger, _userService, _jWTService) = (logger, userService, jwtService);
 
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromForm] RegistrationModel registrationModel)
@@ -49,7 +50,7 @@ public class UserController : ControllerBase
         try
         {
             bool result = await this._userService.CheckLoginInformationAsync(loginModel);
-            return Ok();
+            return Ok(this._jWTService.CreateToken(loginModel));
         }
         catch (Exception ex)
         {

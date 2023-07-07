@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\CVCreationPlatform.API.props" />
+</Project>
