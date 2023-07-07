@@ -4,5 +4,5 @@ namespace CVCreationPlatform.AuthService.Contracts;
 
 public interface IJWTService
 {
-    string CreateToken(LoginModel user);
+    Task<string> CreateTokenAsync(LoginModel user);
 }

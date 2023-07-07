@@ -20,7 +20,7 @@ public class UserService : IUserService
         {
             Username = registrationModel.Username,
             Email = registrationModel.Email,
-            Password = HashPassword(registrationModel.Password),
+            Password = await HashPasswordAsync(registrationModel.Password),
         };
 
         await this._context.AddAsync(user);
@@ -39,22 +39,28 @@ public class UserService : IUserService
     }
     public async Task<bool> CheckLoginInformationAsync(LoginModel loginModel)
     {
-        var user = this._context.Users.Where(u => u.Username == loginModel.Username).FirstOrDefault();
-        
-        if (user == null)
-            throw new ArgumentException("User with this username does not exist");
+        return await Task.Run(() =>
+        {
+            var user = this._context.Users.Where(u => u.Username == loginModel.Username).FirstOrDefault();
 
-        if (!BCrypt.Net.BCrypt.Verify(loginModel.Password, user.Password))
-            throw new ArgumentException("User with this password does not exist");
+            if (user == null)
+                throw new ArgumentException("User with this username does not exist");
 
-        return true;
+            if (!BCrypt.Net.BCrypt.Verify(loginModel.Password, user.Password))
+                throw new ArgumentException("User with this password does not exist");
+
+            return true;
+        });
     }
 
-    private string HashPassword(string password)
+    private async Task<string> HashPasswordAsync(string password)
     {
-        string passwordHash
+        return await Task.Run(() =>
+        {
+            string passwordHash
             = BCrypt.Net.BCrypt.HashPassword(password);
 
-        return passwordHash;
+            return passwordHash;
+        });
     }
 }

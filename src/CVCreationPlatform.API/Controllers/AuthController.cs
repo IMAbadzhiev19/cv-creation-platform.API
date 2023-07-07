@@ -22,7 +22,7 @@ public class AuthController : ControllerBase
         try
         {
             await _userService.RegisterAsync(registrationModel);
-            return Ok();
+            return Ok(); //We can returns a JWT Tocken here
         }
         catch (Exception ex)
         {
@@ -50,7 +50,7 @@ public class AuthController : ControllerBase
         try
         {
             bool result = await this._userService.CheckLoginInformationAsync(loginModel);
-            return Ok(this._jWTService.CreateToken(loginModel));
+            return Ok(await this._jWTService.CreateTokenAsync(loginModel));
         }
         catch (Exception ex)
         {

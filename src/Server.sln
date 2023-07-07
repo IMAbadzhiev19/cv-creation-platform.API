@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CVCreationPlatform.API", "C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CVCreationPlatform.AuthService", "CVCreationPlatform.Services\CVCreationPlatform.AuthService.csproj", "{86D5519D-DCC1-4FAC-A0BB-EB4824B4DD6E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CVCreationPlatform.ResumeService", "CVCreationPlatform.ResumeService\CVCreationPlatform.ResumeService.csproj", "{920D95E0-AEDD-4044-A86A-B45C4A99CC0E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{86D5519D-DCC1-4FAC-A0BB-EB4824B4DD6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86D5519D-DCC1-4FAC-A0BB-EB4824B4DD6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86D5519D-DCC1-4FAC-A0BB-EB4824B4DD6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{920D95E0-AEDD-4044-A86A-B45C4A99CC0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{920D95E0-AEDD-4044-A86A-B45C4A99CC0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{920D95E0-AEDD-4044-A86A-B45C4A99CC0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{920D95E0-AEDD-4044-A86A-B45C4A99CC0E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
