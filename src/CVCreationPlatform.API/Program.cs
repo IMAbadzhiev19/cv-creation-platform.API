@@ -57,11 +57,20 @@ namespace CVCreationPlatform.API
                         ValidateIssuerSigningKey = true,
 						IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
 							.GetBytes(builder.Configuration.GetSection("JwtSettings:Key").Value!)),
-						ValidateIssuer = true,
-						ValidateAudience = true, 
+						ValidateIssuer = false,
+						ValidateAudience = false, 
 						ValidateLifetime = true,
 					};
 				});
+
+			builder.Services.AddCors(options => {
+				options.AddDefaultPolicy(builder =>
+				{
+					builder.WithOrigins("https://localhost:4000", "http://localhost:4000")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+                });
+			});
 
 			var app = builder.Build();
 
@@ -74,9 +83,10 @@ namespace CVCreationPlatform.API
 
             app.UseHttpsRedirection();
 
+			app.UseCors();
+
 			app.UseAuthentication();
 			app.UseAuthorization();
-
 
 			app.MapControllers();
 
