@@ -52,11 +52,14 @@ namespace CVCreationPlatform.API
 				.AddJwtBearer(options => {
 					options.TokenValidationParameters = new TokenValidationParameters
 					{
-						ValidateIssuerSigningKey = true,
+						ValidIssuer = builder.Configuration.GetSection("JwtSettings:Issuer").Value!,
+                        ValidAudience = builder.Configuration.GetSection("JwtSettings:Audience").Value!,
+                        ValidateIssuerSigningKey = true,
 						IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
-							.GetBytes(builder.Configuration.GetSection("AppSettings:Token").Value!)),
-						ValidateIssuer = false,
-						ValidateAudience = false
+							.GetBytes(builder.Configuration.GetSection("JwtSettings:Key").Value!)),
+						ValidateIssuer = true,
+						ValidateAudience = true, 
+						ValidateLifetime = true,
 					};
 				});
 

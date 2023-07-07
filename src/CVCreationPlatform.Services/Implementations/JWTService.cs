@@ -24,17 +24,18 @@ public class JWTService : IJWTService
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
-                _configuration.GetSection("AppSettings:Token").Value));
+                _configuration.GetSection("JwtSettings:Key").Value));
 
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
 
             var token = new JwtSecurityToken(
+                _configuration.GetSection("JwtSettings:Issuer").Value,
+                _configuration.GetSection("JwtSettings:Audience").Value,
                 claims: claims,
-                expires: DateTime.Now.AddDays(1),
+                expires: DateTime.Now.AddMinutes(15),
                 signingCredentials: creds);
 
-            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
-            return jwt;
+            return new JwtSecurityTokenHandler().WriteToken(token);
         });
     }
 }
