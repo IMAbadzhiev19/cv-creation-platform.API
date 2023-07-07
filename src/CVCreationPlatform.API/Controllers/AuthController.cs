@@ -1,19 +1,19 @@
 ﻿using CVCreationPlatform.AuthService.Contracts;
-using CVCreationPlatform.AuthService.Implementations;
 using CVCreationPlatform.AuthService.Models.Auth;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CVCreationPlatform.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class UserController : ControllerBase
+public class AuthController : ControllerBase
 {
-    private readonly ILogger<UserController> _logger;
+    private readonly ILogger<AuthController> _logger;
     private readonly IUserService _userService;
     private readonly IJWTService _jWTService;
 
-    public UserController(ILogger<UserController> logger, IUserService userService, IJWTService jwtService)
+    public AuthController(ILogger<AuthController> logger, IUserService userService, IJWTService jwtService)
         => (_logger, _userService, _jWTService) = (logger, userService, jwtService);
 
     [HttpPost("register")]
@@ -30,7 +30,7 @@ public class UserController : ControllerBase
         }
     }
 
-    [HttpGet("user/{id}")]
+    [HttpGet("user/{id}"), Authorize]
     public async Task<IActionResult> GetUser(int id)
     {
         try
