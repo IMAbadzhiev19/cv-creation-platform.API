@@ -49,7 +49,7 @@ public class AuthController : ControllerBase
     {
         try
         {
-            bool result = await this._userService.CheckLoginInformationAsync(loginModel);
+            bool result = this._userService.CheckLoginInformationAsync(loginModel);
             return Ok(await this._jWTService.CreateTokenAsync(loginModel));
         }
         catch (Exception ex)

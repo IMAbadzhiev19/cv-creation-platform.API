@@ -18,24 +18,36 @@ public class JWTService : IJWTService
     {
         return await Task.Run(() =>
         {
-            List<Claim> claims = new List<Claim>
+            var tokenHandler = new JwtSecurityTokenHandler();
+
+            var claims = new List<Claim>
             {
+                new (JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(ClaimTypes.Name, user.Username),
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
                 _configuration.GetSection("JwtSettings:Key").Value));
-
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
 
-            var token = new JwtSecurityToken(
+            /*var token = new JwtSecurityToken(
                 _configuration.GetSection("JwtSettings:Issuer").Value,
                 _configuration.GetSection("JwtSettings:Audience").Value,
                 claims: claims,
                 expires: DateTime.Now.AddMinutes(15),
-                signingCredentials: creds);
+                signingCredentials: creds);*/
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Issuer = _configuration.GetSection("JwtSettings:Issuer").Value,
+                Audience = _configuration.GetSection("JwtSettings:Audience").Value,
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.Now.AddMinutes(15),
+                SigningCredentials = creds,
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
         });
     }
 }

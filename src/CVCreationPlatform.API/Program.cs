@@ -54,12 +54,12 @@ namespace CVCreationPlatform.API
 					{
 						ValidIssuer = builder.Configuration.GetSection("JwtSettings:Issuer").Value!,
                         ValidAudience = builder.Configuration.GetSection("JwtSettings:Audience").Value!,
-                        ValidateIssuerSigningKey = true,
 						IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
-							.GetBytes(builder.Configuration.GetSection("JwtSettings:Key").Value!)),
-						ValidateIssuer = false,
+												.GetBytes(builder.Configuration.GetSection("JwtSettings:Key").Value!)),
+						ValidateIssuer = true,
 						ValidateAudience = false, 
 						ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
 					};
 				});
 

@@ -37,20 +37,17 @@ public class UserService : IUserService
 
         return user;
     }
-    public async Task<bool> CheckLoginInformationAsync(LoginModel loginModel)
+    public bool CheckLoginInformationAsync(LoginModel loginModel)
     {
-        return await Task.Run(() =>
-        {
-            var user = this._context.Users.Where(u => u.Username == loginModel.Username).FirstOrDefault();
+        var user = this._context.Users.Where(u => u.Username == loginModel.Username).FirstOrDefault();
 
-            if (user == null)
-                throw new ArgumentException("User with this username does not exist");
+        if (user == null)
+            throw new ArgumentException("User with this username does not exist");
 
-            if (!BCrypt.Net.BCrypt.Verify(loginModel.Password, user.Password))
-                throw new ArgumentException("User with this password does not exist");
+        if (!BCrypt.Net.BCrypt.Verify(loginModel.Password, user.Password))
+            throw new ArgumentException("User with this password does not exist");
 
-            return true;
-        });
+        return true;
     }
 
     private async Task<string> HashPasswordAsync(string password)
