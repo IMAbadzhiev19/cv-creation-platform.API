@@ -1,18 +1,25 @@
 ﻿using CVCreationPlatform.AuthService.Contracts;
 using CVCreationPlatform.AuthService.Models.Auth;
+using Data.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 
 namespace CVCreationPlatform.AuthService.Implementations;
 
 public class JWTService : IJWTService
 {
     private readonly IConfiguration _configuration;
+	private readonly ApplicationDbContext _context;
 
-    public JWTService(IConfiguration configuration)
-        => _configuration = configuration;
+	public JWTService(ApplicationDbContext context, IConfiguration configuration)
+	{
+		_context = context;
+		_configuration = configuration;
+	}
 
     public async Task<string> CreateTokenAsync(LoginModel user)
     {
@@ -49,5 +56,42 @@ public class JWTService : IJWTService
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         });
+
     }
+	public async Task<RefreshToken> CreateRefreshTokenAsync()
+	{
+		return await Task.Run(() =>
+		{
+			var refreshToken = new RefreshToken()
+			{
+				Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
+				Created = DateTime.Now,
+				Expires = DateTime.Now.AddDays(7),
+			};
+			return refreshToken;
+		});
+	}
+
+	public async Task SetUserRefreshTokenAsync(string username, RefreshToken refreshToken)
+	{
+		var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+		if (user == null)
+			throw new ArgumentException("Doesn't exist user with that username");
+		user.Token = refreshToken.Token;
+		user.TokenCreated = refreshToken.Created;
+		user.TokenExpires = refreshToken.Expires;
+		await _context.SaveChangesAsync();
+	}
+
+	public async Task<bool> CheckUserRefreshtTokenValidity(string username)
+	{
+		var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+		if (user == null)
+			throw new ArgumentException("Doesn't exist user with that username");
+		if (user.Token == null)
+			return false;
+		if (user.TokenExpires.HasValue && user.TokenExpires.Value < DateTime.UtcNow)
+			return false;
+		return true;
+	}
 }

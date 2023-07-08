@@ -50,11 +50,26 @@ public class AuthController : ControllerBase
         try
         {
             bool result = this._userService.CheckLoginInformationAsync(loginModel);
-            return Ok(await this._jWTService.CreateTokenAsync(loginModel));
+			if (!await _jWTService.CheckUserRefreshtTokenValidity(loginModel.Username))
+			{
+				var refreshToken = await _jWTService.CreateRefreshTokenAsync();
+				await SetRefreshTokenAsync(loginModel.Username, refreshToken);
+			}
+			return Ok(await this._jWTService.CreateTokenAsync(loginModel));
         }
         catch (Exception ex)
         {
             return StatusCode(500, ex.Message);
         }
     }
+	private async Task SetRefreshTokenAsync(string username, RefreshToken refreshToken)
+	{
+		var cookieOptions = new CookieOptions()
+		{
+			HttpOnly = true,
+			Expires = refreshToken.Expires
+		};
+		Response.Cookies.Append("refreshtoken", refreshToken.Token, cookieOptions);
+		await _jWTService.SetUserRefreshTokenAsync(username, refreshToken);
+	}
 }

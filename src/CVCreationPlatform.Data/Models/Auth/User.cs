@@ -21,7 +21,11 @@ public partial class User
     [StringLength(200)]
     [Unicode(false)]
     public string? Password { get; set; }
+	[StringLength(200)]
+	public string? Token { get; set; } = null!;
+	public DateTime? TokenCreated { get; set; }
+	public DateTime? TokenExpires { get; set; }
 
-    [InverseProperty("User")]
+	[InverseProperty("User")]
     public virtual ICollection<Resume> Resumes { get; set; } = new List<Resume>();
 }
