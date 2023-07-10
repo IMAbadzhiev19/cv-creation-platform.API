@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using CVCreationPlatform.Data.Models.CV;
 using Data.Models.Auth;
 using Microsoft.EntityFrameworkCore;
 
@@ -46,4 +47,8 @@ public partial class Resume
     [ForeignKey("ResumeId")]
     [InverseProperty("Resumes")]
     public virtual ICollection<Skill> Skills { get; set; } = new List<Skill>();
+
+    [ForeignKey("ResumeId")]
+    [InverseProperty("Resumes")]
+    public virtual ICollection<Language> Languages { get; set; } = new List<Language>();
 }

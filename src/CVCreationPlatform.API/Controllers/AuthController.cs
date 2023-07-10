@@ -2,6 +2,8 @@
 using CVCreationPlatform.AuthService.Models.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 
 namespace CVCreationPlatform.API.Controllers;
 
@@ -36,8 +38,14 @@ public class AuthController : ControllerBase
         try
         {
             var user = await this._userService.GetUserAsync(id);
-            user.RefreshToken = null;
-            return Ok(user);
+            //user.RefreshToken = null;
+
+            var options = new JsonSerializerOptions
+            {
+                ReferenceHandler = ReferenceHandler.Preserve,
+            };
+
+            return Ok(JsonSerializer.Serialize(user, options));
         }
         catch(Exception ex)
         {

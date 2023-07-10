@@ -12,6 +12,9 @@ public partial class PersonalInfo
     [Key]
     public int Id { get; set; }
 
+    [StringLength(2058)]
+    string? PhotoUrl { get; set; }
+
     public int? ResumeId { get; set; }
 
     [StringLength(100)]
