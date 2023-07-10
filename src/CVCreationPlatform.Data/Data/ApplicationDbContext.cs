@@ -1,6 +1,7 @@
 ﻿using Data.Models.Auth;
 using Microsoft.EntityFrameworkCore;
 using Data.Models.CV;
+using CVCreationPlatform.Data.Models.Auth;
 
 namespace Data.Data
 {
@@ -18,5 +19,6 @@ namespace Data.Data
         public DbSet<Skill> Skills { get; set; }
         public DbSet<Template> Templates { get; set; }
         public DbSet<WorkExperience> WorkExperiences { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
     }
 }

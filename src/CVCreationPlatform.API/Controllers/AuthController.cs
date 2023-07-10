@@ -22,7 +22,7 @@ public class AuthController : ControllerBase
         try
         {
             await _userService.RegisterAsync(registrationModel);
-            return Ok(); //We can returns a JWT Tocken here
+            return Ok();
         }
         catch (Exception ex)
         {
@@ -36,6 +36,7 @@ public class AuthController : ControllerBase
         try
         {
             var user = await this._userService.GetUserAsync(id);
+            user.RefreshToken = null;
             return Ok(user);
         }
         catch(Exception ex)
@@ -53,23 +54,60 @@ public class AuthController : ControllerBase
 			if (!await _jWTService.CheckUserRefreshtTokenValidity(loginModel.Username))
 			{
 				var refreshToken = await _jWTService.CreateRefreshTokenAsync();
-				await SetRefreshTokenAsync(loginModel.Username, refreshToken);
-			}
-			return Ok(await this._jWTService.CreateTokenAsync(loginModel));
+                await _jWTService.SetUserRefreshTokenAsync(loginModel.Username, refreshToken);
+            }
+
+            var rf = await this._userService.GetRefreshTockenAsync(loginModel.Username);
+
+            var returnedObj = new
+            {
+                JWT = await this._jWTService.CreateTokenAsync(loginModel),
+                RefreshToken = rf.Token,
+                RefreshTokenExpirationDate = rf.TokenExpires,
+            };
+
+			return Ok(returnedObj);
         }
         catch (Exception ex)
         {
             return StatusCode(500, ex.Message);
         }
     }
-	private async Task SetRefreshTokenAsync(string username, RefreshToken refreshToken)
-	{
-		var cookieOptions = new CookieOptions()
-		{
-			HttpOnly = true,
-			Expires = refreshToken.Expires
-		};
-		Response.Cookies.Append("refreshtoken", refreshToken.Token, cookieOptions);
-		await _jWTService.SetUserRefreshTokenAsync(username, refreshToken);
-	}
+
+    [HttpGet("logout/{userId}"), Authorize]
+    public async Task<IActionResult> Logout(int userId)
+    {
+        try
+        {
+            var refreshToken = await this._userService.GetUserAsync(userId);
+            var user = await this._userService.LogoutAsync(refreshToken.RefreshToken!.Token!);
+            return Ok(user);
+        }
+        catch(Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
+    }
+
+    [HttpPost("renew-token")]
+    public async Task<IActionResult> RefreshToken(string refreshToken)
+    {
+        try
+        {
+            var user = this._jWTService.GetUserRelatedToRefreshToken(refreshToken);
+
+            var loginModel = new LoginModel
+            {
+                Username = user.Username!,
+                Password = user.Password!,
+            };
+
+            return Ok(await this._jWTService.CreateTokenAsync(loginModel));
+        }
+        catch(Exception e)
+        {
+            return StatusCode(500, e.Message);
+        }
+
+    }
 }

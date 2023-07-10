@@ -1,6 +1,8 @@
 ﻿using CVCreationPlatform.AuthService.Contracts;
 using CVCreationPlatform.AuthService.Models.Auth;
+using CVCreationPlatform.Data.Models.Auth;
 using Data.Data;
+using Data.Models.Auth;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -49,7 +51,7 @@ public class JWTService : IJWTService
                 Issuer = _configuration.GetSection("JwtSettings:Issuer").Value,
                 Audience = _configuration.GetSection("JwtSettings:Audience").Value,
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddMinutes(15),
+                Expires = DateTime.UtcNow.AddMinutes(15),
                 SigningCredentials = creds,
             };
 
@@ -65,33 +67,45 @@ public class JWTService : IJWTService
 			var refreshToken = new RefreshToken()
 			{
 				Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
-				Created = DateTime.Now,
-				Expires = DateTime.Now.AddDays(7),
+                TokenCreated = DateTime.UtcNow,
+                TokenExpires = DateTime.UtcNow.AddDays(7),
 			};
 			return refreshToken;
 		});
 	}
-
 	public async Task SetUserRefreshTokenAsync(string username, RefreshToken refreshToken)
 	{
 		var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
 		if (user == null)
 			throw new ArgumentException("Doesn't exist user with that username");
-		user.Token = refreshToken.Token;
-		user.TokenCreated = refreshToken.Created;
-		user.TokenExpires = refreshToken.Expires;
+
+		user.RefreshToken = refreshToken;
+
+		this._context.RefreshTokens.Add(refreshToken);
+		this._context.Users.Update(user);
 		await _context.SaveChangesAsync();
 	}
-
 	public async Task<bool> CheckUserRefreshtTokenValidity(string username)
 	{
-		var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+		var user = await _context.Users.Include(u => u.RefreshToken).FirstOrDefaultAsync(u => u.Username == username);
 		if (user == null)
 			throw new ArgumentException("Doesn't exist user with that username");
-		if (user.Token == null)
+		if (user.RefreshToken == null)
 			return false;
-		if (user.TokenExpires.HasValue && user.TokenExpires.Value < DateTime.UtcNow)
+		if (user.RefreshToken.Token == null)
 			return false;
+		if (user.RefreshToken!.TokenExpires.HasValue && user.RefreshToken!.TokenExpires.Value < DateTime.UtcNow)
+			return false;
+
 		return true;
+	}
+	public User GetUserRelatedToRefreshToken(string refreshToken)
+	{
+        var user = _context.Users.Include(u => u.RefreshToken).FirstOrDefault(u => u.RefreshToken!.Token == refreshToken)!;
+
+		if (user == null)
+			throw new ArgumentException("You should login in order for a new refresh token to be created.\r\n");
+
+        return user;
 	}
 }
