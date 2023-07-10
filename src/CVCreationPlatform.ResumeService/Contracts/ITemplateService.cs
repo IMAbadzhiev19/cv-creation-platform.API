@@ -4,7 +4,7 @@ namespace CVCreationPlatform.ResumeService.Contracts
 {
     public interface ITemplateService
     {
-        Task<ICollection<TemplateModel>> GetTemplateModelsAsync();
-        Task<bool> AddTemplate(TemplateModel templateModel);
+        Task<ICollection<TemplateDTO>> GetTemplateModelsAsync();
+        Task<bool> AddTemplate(TemplateDTO templateModel);
     }
 }

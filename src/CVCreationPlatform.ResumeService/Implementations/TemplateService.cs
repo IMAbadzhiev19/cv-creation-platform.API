@@ -11,12 +11,12 @@ namespace CVCreationPlatform.ResumeService.Implementations
         public TemplateService(ApplicationDbContext context)
             => _context = context;
 
-        public Task<bool> AddTemplate(TemplateModel templateModel)
+        public Task<bool> AddTemplate(TemplateDTO templateModel)
         {
             throw new NotImplementedException();
         }
 
-        public Task<ICollection<TemplateModel>> GetTemplateModelsAsync()
+        public Task<ICollection<TemplateDTO>> GetTemplateModelsAsync()
         {
             throw new NotImplementedException();
         }

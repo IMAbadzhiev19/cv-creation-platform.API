@@ -9,17 +9,17 @@ namespace CVCreationPlatform.ResumeService.Models
 
         public string? Title { get; set; }
 
-        public virtual ICollection<Certificate> Certificates { get; set; } = new List<Certificate>();
+        public virtual ICollection<CertificateDTO> Certificates { get; set; } = new List<CertificateDTO>();
 
-        public virtual ICollection<Education> Educations { get; set; } = new List<Education>();
+        public virtual ICollection<EducationDTO> Educations { get; set; } = new List<EducationDTO>();
 
-        public virtual ICollection<PersonalInfo> PersonalInfos { get; set; } = new List<PersonalInfo>();
+        public virtual ICollection<PersonalInfoDTO> PersonalInfos { get; set; } = new List<PersonalInfoDTO>();
 
 
-        public virtual ICollection<WorkExperience> WorkExperiences { get; set; } = new List<WorkExperience>();
+        public virtual ICollection<WorkExperienceDTO> WorkExperiences { get; set; } = new List<WorkExperienceDTO>();
 
-        public virtual ICollection<Location> Locations { get; set; } = new List<Location>();
+        public virtual ICollection<LocationDTO> Locations { get; set; } = new List<LocationDTO>();
 
-        public virtual ICollection<Skill> Skills { get; set; } = new List<Skill>();
+        public virtual ICollection<string?> Skills { get; set; } = new List<string?>();
     }
 }
