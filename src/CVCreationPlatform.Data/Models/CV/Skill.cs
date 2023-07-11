@@ -16,6 +16,5 @@ public partial class Skill
     public string? SkillName { get; set; }
 
     [ForeignKey("SkillId")]
-    [InverseProperty("Skills")]
     public virtual ICollection<Resume> Resumes { get; set; } = new List<Resume>();
 }

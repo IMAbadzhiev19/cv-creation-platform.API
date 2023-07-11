@@ -4,9 +4,9 @@ namespace CVCreationPlatform.ResumeService.Contracts
 {
     public interface ICvService
     {
-        Task<bool> CreateResumeAsync(ResumeDTO resumeModel);
-        Task<bool> UpdateResumeAsync(int oldResumeId, ResumeDTO newResumeModel);
-        Task<bool> DeleteResumeAsync(int resumeId);
-        Task<ResumeDTO> GetResumeByIdAsync(int resumeId);
+        Task<Guid> CreateResumeAsync(ResumeDTO resumeModel);
+        Task<bool> UpdateResumeAsync(Guid oldResumeId, ResumeDTO newResumeModel);
+        Task<bool> DeleteResumeAsync(Guid resumeId);
+        Task<(ResumeDTO, DateTime, DateTime)> GetResumeByIdAsync(Guid resumeId);
     }
 }

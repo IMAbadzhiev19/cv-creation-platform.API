@@ -9,7 +9,7 @@ public partial class Education
     [Key]
     public int Id { get; set; }
 
-    public int? ResumeId { get; set; }
+    public Guid? ResumeId { get; set; }
 
     [StringLength(40)]
     [Unicode(false)]
@@ -28,6 +28,5 @@ public partial class Education
     public DateTime? EndDate { get; set; }
 
     [ForeignKey("ResumeId")]
-    [InverseProperty("Educations")]
     public virtual Resume? Resume { get; set; }
 }

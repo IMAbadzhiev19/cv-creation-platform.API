@@ -1,9 +1,8 @@
-﻿using Data.Models.CV;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace CVCreationPlatform.Data.Models.CV
+namespace Data.Models.CV
 {
     public class Language
     {
@@ -16,10 +15,9 @@ namespace CVCreationPlatform.Data.Models.CV
         [Unicode(false)]
         public string? Level { get; set; }
 
-        public int? ResumeId { get; set; }
+        public Guid? ResumeId { get; set; }
 
         [ForeignKey("ResumeId")]
-        [InverseProperty("Languages")]
         public virtual Resume? Resume { get; set; }
     }
 }

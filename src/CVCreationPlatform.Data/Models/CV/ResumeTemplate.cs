@@ -9,7 +9,7 @@ namespace Data.Models.CV;
 [Keyless]
 public partial class ResumeTemplate
 {
-    public int? ResumeId { get; set; }
+    public Guid? ResumeId { get; set; }
 
     public int? TemplateId { get; set; }
 

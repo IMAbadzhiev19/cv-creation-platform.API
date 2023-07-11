@@ -12,7 +12,6 @@ namespace Data.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Certificate> Certificates { get; set; }
         public DbSet<Education> Educations { get; set; }
-        public DbSet<Location> Locations { get; set; }
         public DbSet<PersonalInfo> PersonalInfos { get; set; }
         public DbSet<Resume> Resumes { get; set; }
         public DbSet<ResumeTemplate> ResumeTemplates { get; set; }
@@ -20,5 +19,6 @@ namespace Data.Data
         public DbSet<Template> Templates { get; set; }
         public DbSet<WorkExperience> WorkExperiences { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
+        public DbSet<Language> Languages { get; set; }
     }
 }

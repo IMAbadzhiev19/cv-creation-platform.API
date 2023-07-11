@@ -1,5 +1,7 @@
 using CVCreationPlatform.AuthService.Contracts;
 using CVCreationPlatform.AuthService.Implementations;
+using CVCreationPlatform.ResumeService.Contracts;
+using CVCreationPlatform.ResumeService.Implementations;
 using Data.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -31,6 +33,7 @@ namespace CVCreationPlatform.API
                 );
 			builder.Services.AddScoped<IUserService, UserService>();
 			builder.Services.AddScoped<IJWTService, JWTService>();
+			builder.Services.AddScoped<ICvService, CvService>();
 			builder.Services.AddControllers();
 
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

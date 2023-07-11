@@ -98,7 +98,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("renew-token")]
-    public async Task<IActionResult> RefreshToken(string refreshToken)
+    public async Task<IActionResult> RefreshToken([FromForm] string refreshToken)
     {
         try
         {

@@ -2,6 +2,7 @@
 using CVCreationPlatform.ResumeService.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace CVCreationPlatform.API.Controllers
 {
@@ -18,13 +19,14 @@ namespace CVCreationPlatform.API.Controllers
         [HttpPost("resumes")]
         public async Task<IActionResult> CreateResume([FromForm] ResumeDTO resumeModel)
         {
-            return default;
+            var id = await this._resumeService.CreateResumeAsync(resumeModel);
+            return Ok($"Resume id: {id}");
         }
 
         [HttpGet("templates")]
         public async Task<IActionResult> GetTemplates()
         {
-            return default;
+            throw new NotImplementedException();
         }
     }
 }

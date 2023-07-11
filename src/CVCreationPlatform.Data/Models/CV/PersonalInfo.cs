@@ -13,9 +13,9 @@ public partial class PersonalInfo
     public int Id { get; set; }
 
     [StringLength(2058)]
-    string? PhotoUrl { get; set; }
+    public string? PhotoUrl { get; set; }
 
-    public int? ResumeId { get; set; }
+    public Guid? ResumeId { get; set; }
 
     [StringLength(100)]
     [Unicode(false)]
@@ -34,6 +34,5 @@ public partial class PersonalInfo
     public string? Email { get; set; }
 
     [ForeignKey("ResumeId")]
-    [InverseProperty("PersonalInfos")]
     public virtual Resume? Resume { get; set; }
 }

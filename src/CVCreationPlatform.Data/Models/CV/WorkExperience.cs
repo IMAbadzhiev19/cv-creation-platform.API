@@ -10,7 +10,7 @@ public partial class WorkExperience
     [Key]
     public int Id { get; set; }
 
-    public int? ResumeId { get; set; }
+    public Guid? ResumeId { get; set; }
 
     [StringLength(50)]
     [Unicode(false)]
@@ -29,6 +29,5 @@ public partial class WorkExperience
     public string? Description { get; set; }
 
     [ForeignKey("ResumeId")]
-    [InverseProperty("WorkExperiences")]
     public virtual Resume? Resume { get; set; }
 }

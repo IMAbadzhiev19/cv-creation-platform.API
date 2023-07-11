@@ -11,7 +11,7 @@ public partial class Certificate
     [Key]
     public int Id { get; set; }
 
-    public int? ResumeId { get; set; }
+    public Guid? ResumeId { get; set; }
 
     [StringLength(50)]
     [Unicode(false)]
@@ -24,6 +24,5 @@ public partial class Certificate
     public DateTime? IssueDate { get; set; }
 
     [ForeignKey("ResumeId")]
-    [InverseProperty("Certificates")]
     public virtual Resume? Resume { get; set; }
 }
