@@ -62,7 +62,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpGet("logout/{userId}"), Authorize]
-    public async Task<IActionResult> Logout([FromQuery] int userId)
+    public async Task<IActionResult> Logout([FromRoute] int userId)
     {
         try
         {

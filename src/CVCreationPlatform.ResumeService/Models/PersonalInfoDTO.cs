@@ -13,11 +13,14 @@ public class PersonalInfoDTO
     }
     public PersonalInfoDTO(PersonalInfo personalInfo)
 	{
-		this.PhotoUrl = personalInfo.PhotoUrl;
-		this.FullName = personalInfo.FullName;
-		this.Address = personalInfo.Address;
-		this.PhoneNumber = personalInfo.PhoneNumber;
-		this.Email = personalInfo.Email;
+		if (personalInfo != null)
+		{
+            this.PhotoUrl = personalInfo.PhotoUrl;
+            this.FullName = personalInfo.FullName;
+            this.Address = personalInfo.Address;
+            this.PhoneNumber = personalInfo.PhoneNumber;
+            this.Email = personalInfo.Email;
+        }
 	}
 
 	[StringLength(2058)]

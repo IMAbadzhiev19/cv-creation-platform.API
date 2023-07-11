@@ -15,6 +15,7 @@ public class ResumeDTO
         this.UserId = resume.UserId;
         this.Title = resume.Title;
         this.PersonalInfo = new PersonalInfoDTO(resume.PersonalInfo);
+        this.UnknownSection = new UnknownSectionDTO(resume.UnknownSection);
         this.Certificates = new List<CertificateDTO>(resume.Certificates.Select(x => new CertificateDTO(x)));
         this.Educations = new List<EducationDTO>(resume.Educations.Select(x => new EducationDTO(x)));
         this.WorkExperiences = new List<WorkExperienceDTO>(resume.WorkExperiences.Select(x => new WorkExperienceDTO(x)));
@@ -27,6 +28,7 @@ public class ResumeDTO
     public string? Title { get; set; }
 
     public PersonalInfoDTO? PersonalInfo { get; set; }
+    public UnknownSectionDTO? UnknownSection { get; set; }
 
     public virtual ICollection<CertificateDTO> Certificates { get; set; } = new List<CertificateDTO>();
 

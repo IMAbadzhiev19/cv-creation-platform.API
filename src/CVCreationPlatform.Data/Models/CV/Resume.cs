@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using CVCreationPlatform.Data.Models.CV;
 using Data.Models.Auth;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +18,8 @@ public partial class Resume
     public string? Title { get; set; }
 
     public PersonalInfo? PersonalInfo { get; set; }
+
+    public UnknownSection? UnknownSection { get; set; }
 
     public DateTime CreationDate { get; set; } = DateTime.UtcNow;
 

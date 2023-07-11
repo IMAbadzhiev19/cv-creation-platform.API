@@ -19,7 +19,7 @@ namespace CVCreationPlatform.API.Controllers
         [HttpPost("resumes")]
         public async Task<IActionResult> CreateResume([FromForm] ResumeDTO resumeModel)
         {
-            resumeModel = await this.GetRequestFormFields(resumeModel);
+            resumeModel = await this.GetRequestFormFieldsAsync(resumeModel);
             try
             {
                 var id = await this._resumeService.CreateResumeAsync(resumeModel);
@@ -72,8 +72,7 @@ namespace CVCreationPlatform.API.Controllers
             }
         }
 
-
-        private async Task<ResumeDTO> GetRequestFormFields(ResumeDTO resumeModel)
+        private async Task<ResumeDTO> GetRequestFormFieldsAsync(ResumeDTO resumeModel)
         {
             return await Task.Run(() =>
             {

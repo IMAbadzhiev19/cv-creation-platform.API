@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Data.Models.CV;
 using CVCreationPlatform.Data.Models.Auth;
+using CVCreationPlatform.Data.Models.CV;
 
 namespace Data.Data
 {
@@ -20,5 +21,6 @@ namespace Data.Data
         public DbSet<WorkExperience> WorkExperiences { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
         public DbSet<Language> Languages { get; set; }
+        public DbSet<UnknownSection> UnknownSections { get; set; }
     }
 }

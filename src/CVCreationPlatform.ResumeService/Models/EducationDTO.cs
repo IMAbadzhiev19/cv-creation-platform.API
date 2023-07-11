@@ -13,10 +13,10 @@ public class EducationDTO
     public EducationDTO(Education education)
     {
         this.InstituteName = education.InstituteName;
-	this.Degree = education.Degree;
-	this.FieldOfStudy = education.FieldOfStudy;
-	this.StartDate = education.StartDate;
-	this.EndDate = education.EndDate;
+		this.Degree = education.Degree;
+		this.FieldOfStudy = education.FieldOfStudy;
+		this.StartDate = education.StartDate;
+		this.EndDate = education.EndDate;
     }
 
     [StringLength(40)]

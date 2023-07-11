@@ -14,8 +14,8 @@ public class CertificateDTO
     public CertificateDTO(Certificate certificate)
     {
         this.CertificateName = certificate.CertificateName;
-	this.IssuingOrganization = certificate.IssuingOrganization;
-	this.IssueDate = certificate.IssueDate;
+	    this.IssuingOrganization = certificate.IssuingOrganization;
+	    this.IssueDate = certificate.IssueDate;
     }
 
     [StringLength(50)]

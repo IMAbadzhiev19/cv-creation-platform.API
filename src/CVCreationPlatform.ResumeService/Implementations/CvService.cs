@@ -1,4 +1,5 @@
-﻿using CVCreationPlatform.ResumeService.Contracts;
+﻿using CVCreationPlatform.Data.Models.CV;
+using CVCreationPlatform.ResumeService.Contracts;
 using CVCreationPlatform.ResumeService.Models;
 using Data.Data;
 using Data.Models.CV;
@@ -15,7 +16,7 @@ namespace CVCreationPlatform.ResumeService.Implementations
 
         public async Task<Guid> CreateResumeAsync(ResumeDTO resumeModel)
         {
-            var resume = await this.MapResume(resumeModel);
+            var resume = await this.MapToResumeAsync(resumeModel);
 
             await this._context.Resumes.AddAsync(resume);
             await this._context.Certificates.AddRangeAsync(resume.Certificates);
@@ -62,7 +63,7 @@ namespace CVCreationPlatform.ResumeService.Implementations
             return (resumeDto, resumeToBeReturned.CreationDate, resumeToBeReturned.LastModifiedDate);
         }
 
-        private async Task<Resume> MapResume(ResumeDTO resumeModel)
+        private async Task<Resume> MapToResumeAsync(ResumeDTO resumeModel)
         {
             return await Task.Run(() =>
             {
@@ -87,7 +88,20 @@ namespace CVCreationPlatform.ResumeService.Implementations
                     };
                 }
 
-                if(resumeModel.Certificates.Count != 0)
+                if (resumeModel.UnknownSection != null)
+                {
+                    initialResume.UnknownSection = new UnknownSection
+                    {
+                        Title = resumeModel.UnknownSection.Title,
+                        Description = resumeModel.UnknownSection.Description,
+                        StartDate = resumeModel.UnknownSection.StartDate,
+                        EndDate = resumeModel.UnknownSection.EndDate,
+                        ResumeId = initialResume.Id,
+                        Resume = initialResume
+                    };
+                }
+
+                if (resumeModel.Certificates.Count != 0)
                 {
                     initialResume.Certificates = new List<Certificate>(resumeModel.Certificates
                     .Select(dto => new Certificate
