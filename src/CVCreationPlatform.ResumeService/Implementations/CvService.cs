@@ -17,12 +17,12 @@ namespace CVCreationPlatform.ResumeService.Implementations
         {
             var resume = await this.MapResume(resumeModel);
 
-            this._context.Resumes.Add(resume);
-            this._context.Certificates.AddRange(resume.Certificates);
-            this._context.Educations.AddRange(resume.Educations);
-            this._context.Languages.AddRange(resume.Languages);
-            this._context.WorkExperiences.AddRange(resume.WorkExperiences);
-            this._context.Skills.AddRange(resume.Skills);
+            await this._context.Resumes.AddAsync(resume);
+            await this._context.Certificates.AddRangeAsync(resume.Certificates);
+            await this._context.Educations.AddRangeAsync(resume.Educations);
+            await this._context.Languages.AddRangeAsync(resume.Languages);
+            await this._context.WorkExperiences.AddRangeAsync(resume.WorkExperiences);
+            await this._context.Skills.AddRangeAsync(resume.Skills);
 
             await this._context.SaveChangesAsync();
             return resume.Id;
@@ -33,19 +33,27 @@ namespace CVCreationPlatform.ResumeService.Implementations
             throw new NotImplementedException();
         }
 
-        public async Task<bool> DeleteResumeAsync(Guid resumeId)
+        public async Task DeleteResumeAsync(Guid resumeId)
         {
             var resumeToDelete = await this._context.Resumes.FirstOrDefaultAsync(x => x.Id == resumeId);
 
             if (resumeToDelete == null)
-                return false;
+                throw new ArgumentException("Invalid id");
 
-            return true;
+            this._context.Resumes.Remove(resumeToDelete);
+            await this._context.SaveChangesAsync();
         }
 
         public async Task<(ResumeDTO, DateTime, DateTime)> GetResumeByIdAsync(Guid resumeId)
         {
-            var resumeToBeReturned = await this._context.Resumes.FirstOrDefaultAsync(x => x.Id == resumeId);
+            var resumeToBeReturned = await this._context.Resumes
+                .Include(r => r.PersonalInfo)
+                .Include(r => r.WorkExperiences)
+                .Include(r => r.Certificates)
+                .Include(r => r.Languages)
+                .Include (r => r.Skills)
+                .Include(r => r.Educations)
+                .FirstOrDefaultAsync(x => x.Id == resumeId);
 
             if (resumeToBeReturned == null)
                 throw new ArgumentException("Invalid id");

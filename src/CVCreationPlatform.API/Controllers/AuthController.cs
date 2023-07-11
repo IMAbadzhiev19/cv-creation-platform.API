@@ -32,27 +32,6 @@ public class AuthController : ControllerBase
         }
     }
 
-    [HttpGet("user/{id}"), Authorize]
-    public async Task<IActionResult> GetUser(int id)
-    {
-        try
-        {
-            var user = await this._userService.GetUserAsync(id);
-            //user.RefreshToken = null;
-
-            var options = new JsonSerializerOptions
-            {
-                ReferenceHandler = ReferenceHandler.Preserve,
-            };
-
-            return Ok(JsonSerializer.Serialize(user, options));
-        }
-        catch(Exception ex)
-        {
-            return StatusCode(500, ex.Message);
-        }
-    }
-
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromForm] LoginModel loginModel)
     {
@@ -83,7 +62,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpGet("logout/{userId}"), Authorize]
-    public async Task<IActionResult> Logout(int userId)
+    public async Task<IActionResult> Logout([FromQuery] int userId)
     {
         try
         {

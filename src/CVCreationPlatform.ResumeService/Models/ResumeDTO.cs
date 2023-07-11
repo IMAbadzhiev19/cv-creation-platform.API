@@ -9,6 +9,7 @@ public class ResumeDTO
     {
         
     }
+
     public ResumeDTO(Resume resume)
     {
         this.UserId = resume.UserId;

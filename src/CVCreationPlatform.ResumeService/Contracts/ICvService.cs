@@ -6,7 +6,7 @@ namespace CVCreationPlatform.ResumeService.Contracts
     {
         Task<Guid> CreateResumeAsync(ResumeDTO resumeModel);
         Task<bool> UpdateResumeAsync(Guid oldResumeId, ResumeDTO newResumeModel);
-        Task<bool> DeleteResumeAsync(Guid resumeId);
+        Task DeleteResumeAsync(Guid resumeId);
         Task<(ResumeDTO, DateTime, DateTime)> GetResumeByIdAsync(Guid resumeId);
     }
 }
