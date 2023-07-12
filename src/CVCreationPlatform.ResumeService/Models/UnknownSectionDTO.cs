@@ -1,8 +1,4 @@
-﻿using Data.Models.CV;
-using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using CVCreationPlatform.Data.Models.CV;
+﻿using CVCreationPlatform.Data.Models.CV;
 
 namespace CVCreationPlatform.ResumeService.Models;
 

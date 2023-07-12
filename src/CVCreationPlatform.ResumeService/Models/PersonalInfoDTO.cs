@@ -1,6 +1,5 @@
 ﻿using Data.Models.CV;
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
 namespace CVCreationPlatform.ResumeService.Models;

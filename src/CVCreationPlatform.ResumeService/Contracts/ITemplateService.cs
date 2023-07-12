@@ -1,10 +1,9 @@
 ﻿using CVCreationPlatform.ResumeService.Models;
 
-namespace CVCreationPlatform.ResumeService.Contracts
+namespace CVCreationPlatform.ResumeService.Contracts;
+
+public interface ITemplateService
 {
-    public interface ITemplateService
-    {
-        Task<ICollection<TemplateDTO>> GetTemplateModelsAsync();
-        Task<bool> AddTemplate(TemplateDTO templateModel);
-    }
+    Task<ICollection<TemplateDTO>> GetTemplateModelsAsync();
+    Task<bool> AddTemplate(TemplateDTO templateModel);
 }

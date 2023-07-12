@@ -1,12 +1,11 @@
-﻿namespace CVCreationPlatform.ResumeService.Models
-{
-	public class SkillsDTO
-	{
-		public SkillsDTO(string? skillName)
-		{
-			SkillName = skillName;
+﻿namespace CVCreationPlatform.ResumeService.Models;
 
-		}
-		public string? SkillName { get; set; }
+public class SkillsDTO
+{
+	public SkillsDTO(string? skillName)
+	{
+		SkillName = skillName;
+
 	}
+	public string? SkillName { get; set; }
 }

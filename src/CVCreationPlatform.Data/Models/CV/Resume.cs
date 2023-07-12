@@ -25,9 +25,6 @@ public partial class Resume
 
     public DateTime CreationDate { get; set; } = DateTime.UtcNow;
 
-    [Column("Last_Modified_Date")]
-    public DateTime LastModifiedDate { get; set; } = DateTime.UtcNow;
-
     public virtual ICollection<Certificate> Certificates { get; set; } = new List<Certificate>();
 
     public virtual ICollection<Education> Educations { get; set; } = new List<Education>();

@@ -1,5 +1,4 @@
 ﻿using Data.Models.CV;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CVCreationPlatform.ResumeService.Models;
 
@@ -14,6 +13,7 @@ public class ResumeDTO
     {
         this.UserId = resume.UserId;
         this.Title = resume.Title;
+        this.CreationDate = resume.CreationDate;
         this.PersonalInfo = new PersonalInfoDTO(resume.PersonalInfo);
         this.UnknownSection = new UnknownSectionDTO(resume.UnknownSection);
         this.Template = new TemplateDTO(resume.Template);
@@ -28,8 +28,12 @@ public class ResumeDTO
 
     public string? Title { get; set; }
 
+    public DateTime CreationDate { get; set; }
+
     public PersonalInfoDTO? PersonalInfo { get; set; }
+    
     public UnknownSectionDTO? UnknownSection { get; set; }
+
     public TemplateDTO? Template { get; set; }
 
     public virtual ICollection<CertificateDTO> Certificates { get; set; } = new List<CertificateDTO>();
