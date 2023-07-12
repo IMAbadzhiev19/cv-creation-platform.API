@@ -56,6 +56,34 @@ namespace CVCreationPlatform.ResumeService.Implementations
             if (resumeToDelete == null)
                 throw new ArgumentException("Invalid id");
 
+            var personalInfoToRemove = await this._context.PersonalInfos.FirstOrDefaultAsync(x => x.ResumeId == resumeId);
+            if (personalInfoToRemove != null)
+                this._context.PersonalInfos.Remove(personalInfoToRemove);
+
+            var unknownSectionToRemove = await this._context.UnknownSections.FirstOrDefaultAsync(x => x.ResumeId == resumeId);
+            if (unknownSectionToRemove != null)
+                this._context.UnknownSections.Remove(unknownSectionToRemove);
+
+            var workExperiencesToRemove = this._context.WorkExperiences.Where(x => x.ResumeId == resumeId).ToList();
+            if (workExperiencesToRemove.Count != 0)
+                this._context.WorkExperiences.RemoveRange(workExperiencesToRemove);
+
+            var certificatesToRemove = this._context.Certificates.Where(x => x.ResumeId == resumeId).ToList();
+            if (certificatesToRemove.Count != 0)
+                this._context.Certificates.RemoveRange(certificatesToRemove);
+
+            var languagesToRemove = this._context.Languages.Where(x => x.ResumeId == resumeId).ToList();
+            if (languagesToRemove.Count != 0)
+                this._context.Languages.RemoveRange(languagesToRemove);
+
+            var educationsToRemove = this._context.Educations.Where(x => x.ResumeId == resumeId).ToList();
+            if (educationsToRemove.Count != 0)
+                this._context.Educations.RemoveRange(educationsToRemove);
+
+            var skillsToRemove = this._context.Skills.Where(x => x.Resumes.All(x => x.Id == resumeId)).ToList();
+            if (skillsToRemove.Count != 0)
+                this._context.Skills.RemoveRange(skillsToRemove);
+
             this._context.Resumes.Remove(resumeToDelete);
             await this._context.SaveChangesAsync();
         }
@@ -64,6 +92,7 @@ namespace CVCreationPlatform.ResumeService.Implementations
         {
             var resumeToBeReturned = await this._context.Resumes
                 .Include(r => r.PersonalInfo)
+                .Include(r => r.UnknownSection)
                 .Include(r => r.WorkExperiences)
                 .Include(r => r.Certificates)
                 .Include(r => r.Languages)
