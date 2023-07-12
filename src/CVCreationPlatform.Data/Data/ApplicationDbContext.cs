@@ -15,7 +15,6 @@ namespace Data.Data
         public DbSet<Education> Educations { get; set; }
         public DbSet<PersonalInfo> PersonalInfos { get; set; }
         public DbSet<Resume> Resumes { get; set; }
-        public DbSet<ResumeTemplate> ResumeTemplates { get; set; }
         public DbSet<Skill> Skills { get; set; }
         public DbSet<Template> Templates { get; set; }
         public DbSet<WorkExperience> WorkExperiences { get; set; }

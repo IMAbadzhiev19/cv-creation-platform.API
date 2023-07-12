@@ -21,6 +21,8 @@ public partial class Resume
 
     public UnknownSection? UnknownSection { get; set; }
 
+    public Template? Template { get; set; }
+
     public DateTime CreationDate { get; set; } = DateTime.UtcNow;
 
     [Column("Last_Modified_Date")]

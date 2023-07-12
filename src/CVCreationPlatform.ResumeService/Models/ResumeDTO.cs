@@ -29,6 +29,7 @@ public class ResumeDTO
 
     public PersonalInfoDTO? PersonalInfo { get; set; }
     public UnknownSectionDTO? UnknownSection { get; set; }
+    public TemplateDTO? Template { get; set; }
 
     public virtual ICollection<CertificateDTO> Certificates { get; set; } = new List<CertificateDTO>();
 

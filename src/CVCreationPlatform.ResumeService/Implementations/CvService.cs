@@ -84,6 +84,10 @@ namespace CVCreationPlatform.ResumeService.Implementations
             if (skillsToRemove.Count != 0)
                 this._context.Skills.RemoveRange(skillsToRemove);
 
+            var template = resumeToDelete.Template;
+            if (template != null)
+                template.Resumes.Remove(resumeToDelete);
+
             this._context.Resumes.Remove(resumeToDelete);
             await this._context.SaveChangesAsync();
         }
@@ -93,6 +97,7 @@ namespace CVCreationPlatform.ResumeService.Implementations
             var resumeToBeReturned = await this._context.Resumes
                 .Include(r => r.PersonalInfo)
                 .Include(r => r.UnknownSection)
+                .Include(r => r.Template)
                 .Include(r => r.WorkExperiences)
                 .Include(r => r.Certificates)
                 .Include(r => r.Languages)
@@ -143,6 +148,20 @@ namespace CVCreationPlatform.ResumeService.Implementations
                         ResumeId = initialResume.Id,
                         Resume = initialResume
                     };
+                }
+
+                if (resumeModel.Template != null)
+                {
+                    var template = this._context.Templates.FirstOrDefault(x => x.TemplateName == resumeModel.Template.TemplateName);
+                    if (template != null)
+                        initialResume.Template = template;
+                    else
+                        initialResume.Template = new Template
+                        {
+                            TemplateName = resumeModel.Template.TemplateName,
+                            FilePath = resumeModel.Template.FilePath,
+                            CssClassName = resumeModel.Template.CssClassName,
+                        };
                 }
 
                 if (resumeModel.Certificates.Count != 0)
