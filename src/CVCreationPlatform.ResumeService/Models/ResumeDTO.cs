@@ -20,7 +20,7 @@ public class ResumeDTO
         this.Educations = new List<EducationDTO>(resume.Educations.Select(x => new EducationDTO(x)));
         this.WorkExperiences = new List<WorkExperienceDTO>(resume.WorkExperiences.Select(x => new WorkExperienceDTO(x)));
         this.Languages = new List<LanguageDTO>(resume.Languages.Select(x => new LanguageDTO(x)));
-        this.Skills = new List<string>(resume.Skills.Select(x => x.SkillName));
+        this.Skills = new List<SkillsDTO>(resume.Skills.Select(x => new SkillsDTO(x.SkillName)));
     }
 
     public int UserId { get; set; }
@@ -38,5 +38,5 @@ public class ResumeDTO
 
     public virtual ICollection<LanguageDTO> Languages { get; set; } = new List<LanguageDTO>();
 
-    public virtual ICollection<string?> Skills { get; set; } = new List<string?>();
+    public virtual ICollection<SkillsDTO> Skills { get; set; } = new List<SkillsDTO>();
 }

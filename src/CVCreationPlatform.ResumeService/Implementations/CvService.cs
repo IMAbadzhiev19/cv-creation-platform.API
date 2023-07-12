@@ -31,7 +31,22 @@ namespace CVCreationPlatform.ResumeService.Implementations
 
         public async Task<bool> UpdateResumeAsync(Guid oldResumeId, ResumeDTO newResumeModel)
         {
-            throw new NotImplementedException();
+            var oldResume = await this._context.Resumes.FindAsync(oldResumeId);
+            if (oldResume == null)
+                 throw new ArgumentException("Don't exist resume with this id");
+            var newResume = await this.MapToResumeAsync(newResumeModel);
+            oldResume.Title = newResume.Title;
+			oldResume.PersonalInfo = newResume.PersonalInfo;
+			oldResume.UnknownSection = newResume.UnknownSection;
+			oldResume.UnknownSection = newResume.UnknownSection;
+            oldResume.LastModifiedDate = DateTime.UtcNow;
+            oldResume.Certificates = new List<Certificate>(newResume.Certificates);
+			oldResume.Educations = new List<Education>(newResume.Educations);
+			oldResume.Languages = new List<Language>(newResume.Languages);
+			oldResume.WorkExperiences = new List<WorkExperience>(newResume.WorkExperiences);
+            oldResume.Skills = new List<Skill>(newResume.Skills);
+            await this._context.SaveChangesAsync();
+			return true;
         }
 
         public async Task DeleteResumeAsync(Guid resumeId)
@@ -165,7 +180,7 @@ namespace CVCreationPlatform.ResumeService.Implementations
                     initialResume.Skills = new List<Skill>(resumeModel.Skills
                         .Select(dto => new Skill
                         {
-                            SkillName = dto,
+                            SkillName = dto.SkillName,
                         })
                     );
 
