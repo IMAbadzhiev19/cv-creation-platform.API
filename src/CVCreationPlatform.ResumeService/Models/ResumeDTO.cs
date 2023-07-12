@@ -16,6 +16,7 @@ public class ResumeDTO
         this.Title = resume.Title;
         this.PersonalInfo = new PersonalInfoDTO(resume.PersonalInfo);
         this.UnknownSection = new UnknownSectionDTO(resume.UnknownSection);
+        this.Template = new TemplateDTO(resume.Template);
         this.Certificates = new List<CertificateDTO>(resume.Certificates.Select(x => new CertificateDTO(x)));
         this.Educations = new List<EducationDTO>(resume.Educations.Select(x => new EducationDTO(x)));
         this.WorkExperiences = new List<WorkExperienceDTO>(resume.WorkExperiences.Select(x => new WorkExperienceDTO(x)));

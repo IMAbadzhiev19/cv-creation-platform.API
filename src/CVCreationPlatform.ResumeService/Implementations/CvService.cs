@@ -14,9 +14,12 @@ namespace CVCreationPlatform.ResumeService.Implementations
         public CvService(ApplicationDbContext context)
             => _context = context;
 
-        public async Task<Guid> CreateResumeAsync(ResumeDTO resumeModel)
+        public async Task<Guid> CreateResumeAsync(ResumeDTO resumeModel, Guid id = default)
         {
             var resume = await this.MapToResumeAsync(resumeModel);
+
+            if (id != default)
+                resume.Id = id;
 
             await this._context.Resumes.AddAsync(resume);
             await this._context.Certificates.AddRangeAsync(resume.Certificates);
@@ -31,22 +34,11 @@ namespace CVCreationPlatform.ResumeService.Implementations
 
         public async Task<bool> UpdateResumeAsync(Guid oldResumeId, ResumeDTO newResumeModel)
         {
-            var oldResume = await this._context.Resumes.FindAsync(oldResumeId);
-            if (oldResume == null)
-                 throw new ArgumentException("Don't exist resume with this id");
-            var newResume = await this.MapToResumeAsync(newResumeModel);
-            oldResume.Title = newResume.Title;
-			oldResume.PersonalInfo = newResume.PersonalInfo;
-			oldResume.UnknownSection = newResume.UnknownSection;
-			oldResume.UnknownSection = newResume.UnknownSection;
-            oldResume.LastModifiedDate = DateTime.UtcNow;
-            oldResume.Certificates = new List<Certificate>(newResume.Certificates);
-			oldResume.Educations = new List<Education>(newResume.Educations);
-			oldResume.Languages = new List<Language>(newResume.Languages);
-			oldResume.WorkExperiences = new List<WorkExperience>(newResume.WorkExperiences);
-            oldResume.Skills = new List<Skill>(newResume.Skills);
+            await this.DeleteResumeAsync(oldResumeId);
+            await this.CreateResumeAsync(newResumeModel, oldResumeId);
             await this._context.SaveChangesAsync();
-			return true;
+
+            return true;
         }
 
         public async Task DeleteResumeAsync(Guid resumeId)
@@ -154,7 +146,10 @@ namespace CVCreationPlatform.ResumeService.Implementations
                 {
                     var template = this._context.Templates.FirstOrDefault(x => x.TemplateName == resumeModel.Template.TemplateName);
                     if (template != null)
+                    {
+                        template.Resumes.Add(initialResume);
                         initialResume.Template = template;
+                    }
                     else
                         initialResume.Template = new Template
                         {

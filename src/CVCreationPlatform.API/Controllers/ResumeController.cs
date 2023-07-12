@@ -55,6 +55,7 @@ namespace CVCreationPlatform.API.Controllers
         [HttpPut("resumes/{id}")]
         public async Task<IActionResult> UpdateResume([FromRoute] Guid id, [FromForm] ResumeDTO resumeModel)
         {
+            resumeModel = await this.GetRequestFormFieldsAsync(resumeModel);
             try
             {
                 await _resumeService.UpdateResumeAsync(id, resumeModel);
