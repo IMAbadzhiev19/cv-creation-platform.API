@@ -24,7 +24,7 @@ public class ResumeDTO
         this.Skills = new List<SkillsDTO>(resume.Skills.Select(x => new SkillsDTO(x.SkillName)));
     }
 
-    public int UserId { get; set; }
+    public Guid UserId { get; set; }
 
     public string? Title { get; set; }
 

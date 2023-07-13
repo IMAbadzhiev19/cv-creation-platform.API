@@ -20,6 +20,7 @@ public class UserService : IUserService
     {
         var user = new User()
         {
+            Id = Guid.NewGuid(),
             Username = registrationModel.Username,
             Email = registrationModel.Email,
             Password = await HashPasswordAsync(registrationModel.Password),
@@ -28,10 +29,10 @@ public class UserService : IUserService
         await this._context.AddAsync(user);
         await this._context.SaveChangesAsync();
     }
-    public async Task<User> GetUserAsync(int id)
+    public async Task<User> GetUserAsync(Guid id)
     {
         var user = await this._context.Users.Include(u => u.RefreshToken).FirstOrDefaultAsync(ui => ui.Id == id);
-        
+
         if (user == null)
         {
             throw new ArgumentException("User with this id doesn't exist");
@@ -39,9 +40,9 @@ public class UserService : IUserService
 
         return user;
     }
-    public bool CheckLoginInformationAsync(LoginModel loginModel)
+    public User CheckLoginInformationAsync(LoginModel loginModel)
     {
-        var user = this._context.Users.Where(u => u.Username == loginModel.Username).FirstOrDefault();
+        var user = this._context.Users.FirstOrDefault(u => u.Username == loginModel.Username);
 
         if (user == null)
             throw new ArgumentException("User with this username does not exist");
@@ -49,17 +50,16 @@ public class UserService : IUserService
         if (!BCrypt.Net.BCrypt.Verify(loginModel.Password, user.Password))
             throw new ArgumentException("User with this password does not exist");
 
-        return true;
+        return user;
     }
     public async Task<User> LogoutAsync(string refreshToken)
-    {
-        var resultUser = await this.DeleteRefreshTokenAsync(refreshToken);
-        return resultUser;
-    }
+        => await this.DeleteRefreshTokenAsync(refreshToken);
 
     public async Task<RefreshToken> GetRefreshTockenAsync(string username)
     {
-        var user = await this._context.Users.Include(u => u.RefreshToken).FirstOrDefaultAsync(un => un.Username == username);
+        var user = await this._context.Users
+            .Include(u => u.RefreshToken)
+            .FirstOrDefaultAsync(un => un.Username == username);
 
         return user!.RefreshToken!;
     }
@@ -88,8 +88,8 @@ public class UserService : IUserService
 
             user.RefreshTokenId = null;
             user.RefreshToken = null;
-            this._context.Users.Update(user);
 
+            this._context.Users.Update(user);
             this._context.RefreshTokens.Remove(rf);
             this._context.SaveChanges();
 

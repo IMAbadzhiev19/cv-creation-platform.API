@@ -51,7 +51,7 @@ public class JWTService : IJWTService
                 Issuer = _configuration.GetSection("JwtSettings:Issuer").Value,
                 Audience = _configuration.GetSection("JwtSettings:Audience").Value,
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddMinutes(15),
+                Expires = DateTime.UtcNow.AddMinutes(70),
                 SigningCredentials = creds,
             };
 

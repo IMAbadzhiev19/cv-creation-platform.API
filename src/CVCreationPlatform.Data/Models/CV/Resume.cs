@@ -11,7 +11,7 @@ public partial class Resume
     [Key]
     public Guid Id { get; set; }
 
-    public int UserId { get; set; }
+    public Guid UserId { get; set; }
 
     [Unicode(false)]
     public string? Title { get; set; }

@@ -2,8 +2,6 @@
 using CVCreationPlatform.AuthService.Models.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.Json.Serialization;
-using System.Text.Json;
 
 namespace CVCreationPlatform.API.Controllers;
 
@@ -33,11 +31,11 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromForm] LoginModel loginModel)
+    public async Task<ActionResult<UserDTO>> Login([FromForm] LoginModel loginModel)
     {
         try
         {
-            bool result = this._userService.CheckLoginInformationAsync(loginModel);
+            var user = this._userService.CheckLoginInformationAsync(loginModel);
 			if (!await _jWTService.CheckUserRefreshtTokenValidity(loginModel.Username))
 			{
 				var refreshToken = await _jWTService.CreateRefreshTokenAsync();
@@ -46,14 +44,16 @@ public class AuthController : ControllerBase
 
             var rf = await this._userService.GetRefreshTockenAsync(loginModel.Username);
 
-            var returnedObj = new
+            var userToReturn = new UserDTO()
             {
-                JWT = await this._jWTService.CreateTokenAsync(loginModel),
+                Id = user.Id,
+                Username = user.Username,
+                Jwt = await this._jWTService.CreateTokenAsync(loginModel),
                 RefreshToken = rf.Token,
                 RefreshTokenExpirationDate = rf.TokenExpires,
             };
 
-			return Ok(returnedObj);
+            return Ok(userToReturn);
         }
         catch (Exception ex)
         {
@@ -62,13 +62,13 @@ public class AuthController : ControllerBase
     }
 
     [HttpGet("logout/{userId}"), Authorize]
-    public async Task<IActionResult> Logout([FromRoute] int userId)
+    public async Task<IActionResult> Logout([FromRoute] Guid userId)
     {
         try
         {
             var refreshToken = await this._userService.GetUserAsync(userId);
             var user = await this._userService.LogoutAsync(refreshToken.RefreshToken!.Token!);
-            return Ok(user);
+            return Ok();
         }
         catch(Exception ex)
         {

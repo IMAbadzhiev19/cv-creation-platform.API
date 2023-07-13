@@ -103,7 +103,7 @@ public class CvService : ICvService
         return new ResumeDTO(resumeToBeReturned);
     }
 
-    public async Task<List<ResumeDTO>> GetResumesByUserIdAsync(int userId)
+    public async Task<List<ResumeDTO>> GetResumesByUserIdAsync(Guid userId)
     {
         var user = await this._context.Users.FindAsync(userId);
         if (user == null)

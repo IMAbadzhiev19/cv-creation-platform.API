@@ -32,7 +32,7 @@ public class ResumeController : ControllerBase
     }
 
     [HttpGet("resumes/{id}")]
-    public async Task<IActionResult> GetResume([FromRoute] Guid id)
+    public async Task<ActionResult<ResumeDTO>> GetResume([FromRoute] Guid id)
     {
 
         try
@@ -75,7 +75,7 @@ public class ResumeController : ControllerBase
     }
 
     [HttpGet("userResumes/{userId}")]
-    public async Task<IActionResult> GetResumes([FromRoute] int userId)
+    public async Task<IActionResult> GetResumes([FromRoute] Guid userId)
     {
         try
         {

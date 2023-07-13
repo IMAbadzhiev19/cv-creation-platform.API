@@ -9,7 +9,7 @@ namespace Data.Models.Auth;
 public partial class User
 {
     [Key]
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
     [StringLength(30)]
     [Unicode(false)]
