@@ -34,6 +34,7 @@ public class ResumeController : ControllerBase
     [HttpGet("resumes/{id}")]
     public async Task<IActionResult> GetResume([FromRoute] Guid id)
     {
+
         try
         {
             return Ok(await this._resumeService.GetResumeByIdAsync(id));
@@ -68,6 +69,19 @@ public class ResumeController : ControllerBase
             return Ok($"The resume with id: {id} has been successfully deleted");
         }
         catch(Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
+    }
+
+    [HttpGet("userResumes/{userId}")]
+    public async Task<IActionResult> GetResumes([FromRoute] int userId)
+    {
+        try
+        {
+            return Ok(await this._resumeService.GetResumesByUserIdAsync(userId));
+        }
+        catch (Exception ex)
         {
             return StatusCode(500, ex.Message);
         }

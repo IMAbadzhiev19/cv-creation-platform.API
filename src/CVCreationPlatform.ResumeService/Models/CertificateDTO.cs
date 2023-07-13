@@ -18,11 +18,9 @@ public class CertificateDTO
 	    this.IssueDate = certificate.IssueDate;
     }
 
-    [StringLength(50)]
 	[Unicode(false)]
 	public string? CertificateName { get; set; }
 
-	[StringLength(60)]
 	[Unicode(false)]
 	public string? IssuingOrganization { get; set; }
 

@@ -11,7 +11,6 @@ public partial class Skill
     [Key]
     public int Id { get; set; }
 
-    [StringLength(30)]
     [Unicode(false)]
     public string? SkillName { get; set; }
 

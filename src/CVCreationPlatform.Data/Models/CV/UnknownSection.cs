@@ -10,11 +10,9 @@ public class UnknownSection
     [Key]
     public int Id { get; set; }
 
-    [StringLength(30)]
     [Unicode(false)]
     public string? Title { get; set; }
 
-    [StringLength(230)]
     [Unicode(false)]
     public string? Description { get; set; }
 

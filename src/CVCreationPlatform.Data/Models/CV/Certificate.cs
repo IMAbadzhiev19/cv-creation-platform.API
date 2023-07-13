@@ -13,11 +13,9 @@ public partial class Certificate
 
     public Guid? ResumeId { get; set; }
 
-    [StringLength(50)]
     [Unicode(false)]
     public string? CertificateName { get; set; }
 
-    [StringLength(60)]
     [Unicode(false)]
     public string? IssuingOrganization { get; set; }
 

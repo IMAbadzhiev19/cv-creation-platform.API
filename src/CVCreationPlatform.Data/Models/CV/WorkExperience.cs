@@ -12,11 +12,9 @@ public partial class WorkExperience
 
     public Guid? ResumeId { get; set; }
 
-    [StringLength(50)]
     [Unicode(false)]
     public string? CompanyName { get; set; }
 
-    [StringLength(30)]
     [Unicode(false)]
     public string? Position { get; set; }
 
@@ -24,7 +22,6 @@ public partial class WorkExperience
 
     public DateTime? EndDate { get; set; }
 
-    [StringLength(40)]
     [Unicode(false)]
     public string? Description { get; set; }
 

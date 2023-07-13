@@ -103,6 +103,29 @@ public class CvService : ICvService
         return new ResumeDTO(resumeToBeReturned);
     }
 
+    public async Task<List<ResumeDTO>> GetResumesByUserIdAsync(int userId)
+    {
+        var user = await this._context.Users.FindAsync(userId);
+        if (user == null)
+            throw new ArgumentException("Invalid id");
+
+        var resumes = this._context.Resumes
+            .Include(r => r.PersonalInfo)
+            .Include(r => r.UnknownSection)
+            .Include(r => r.Template)
+            .Include(r => r.WorkExperiences)
+            .Include(r => r.Certificates)
+            .Include(r => r.Languages)
+            .Include(r => r.Skills)
+            .Include(r => r.Educations)
+            .Where(x => x.UserId == userId)
+            .Select(x => new ResumeDTO(x))
+            .ToList();
+
+        return resumes;
+    }
+
+
     private async Task<Resume> MapToResumeAsync(ResumeDTO resumeModel)
     {
         return await Task.Run(() =>

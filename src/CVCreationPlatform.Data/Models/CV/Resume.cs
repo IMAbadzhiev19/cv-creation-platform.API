@@ -13,7 +13,6 @@ public partial class Resume
 
     public int UserId { get; set; }
 
-    [StringLength(30)]
     [Unicode(false)]
     public string? Title { get; set; }
 
