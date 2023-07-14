@@ -21,8 +21,6 @@ public class TemplateService : ITemplateService
             template = new Template()
             {
                 TemplateName = templateModel.TemplateName,
-                CssClassName = templateModel.CssClassName,
-                FilePath = templateModel.FilePath
             };
             await _context.Templates.AddAsync(template);
             return true;
@@ -35,10 +33,9 @@ public class TemplateService : ITemplateService
 
     public async Task<ICollection<TemplateDTO>> GetTemplateModelsAsync()
        => await _context.Templates
+        .Where(t => t.TemplateName != null)
         .Select(t => new TemplateDTO()
        {
            TemplateName = t.TemplateName,
-           CssClassName = t.CssClassName,
-           FilePath = t.FilePath
        }).ToListAsync();
 }

@@ -56,23 +56,23 @@ public class CvService : ICvService
         if (unknownSectionToRemove != null)
             this._context.UnknownSections.Remove(unknownSectionToRemove);
 
-        var workExperiencesToRemove = this._context.WorkExperiences.Where(x => x.ResumeId == resumeId).ToList();
+        var workExperiencesToRemove = await this._context.WorkExperiences.Where(x => x.ResumeId == resumeId).ToListAsync();
         if (workExperiencesToRemove.Count != 0)
             this._context.WorkExperiences.RemoveRange(workExperiencesToRemove);
 
-        var certificatesToRemove = this._context.Certificates.Where(x => x.ResumeId == resumeId).ToList();
+        var certificatesToRemove = await this._context.Certificates.Where(x => x.ResumeId == resumeId).ToListAsync();
         if (certificatesToRemove.Count != 0)
             this._context.Certificates.RemoveRange(certificatesToRemove);
 
-        var languagesToRemove = this._context.Languages.Where(x => x.ResumeId == resumeId).ToList();
+        var languagesToRemove = await this._context.Languages.Where(x => x.ResumeId == resumeId).ToListAsync();
         if (languagesToRemove.Count != 0)
             this._context.Languages.RemoveRange(languagesToRemove);
 
-        var educationsToRemove = this._context.Educations.Where(x => x.ResumeId == resumeId).ToList();
+        var educationsToRemove = await this._context.Educations.Where(x => x.ResumeId == resumeId).ToListAsync();
         if (educationsToRemove.Count != 0)
             this._context.Educations.RemoveRange(educationsToRemove);
 
-        var skillsToRemove = this._context.Skills.Where(x => x.Resumes.All(x => x.Id == resumeId)).ToList();
+        var skillsToRemove = await this._context.Skills.Where(x => x.Resumes.All(x => x.Id == resumeId)).ToListAsync();
         if (skillsToRemove.Count != 0)
             this._context.Skills.RemoveRange(skillsToRemove);
 
@@ -109,7 +109,7 @@ public class CvService : ICvService
         if (user == null)
             throw new ArgumentException("Invalid id");
 
-        var resumes = this._context.Resumes
+        var resumes = await this._context.Resumes
             .Include(r => r.PersonalInfo)
             .Include(r => r.UnknownSection)
             .Include(r => r.Template)
@@ -120,7 +120,7 @@ public class CvService : ICvService
             .Include(r => r.Educations)
             .Where(x => x.UserId == userId)
             .Select(x => new ResumeDTO(x))
-            .ToList();
+            .ToListAsync();
 
         return resumes;
     }
@@ -145,6 +145,7 @@ public class CvService : ICvService
                     PhotoUrl = resumeModel.PersonalInfo.PhotoUrl,
                     ResumeId = initialResume.Id,
                     Resume = initialResume,
+                    Description = resumeModel.PersonalInfo.Description,
                     FullName = resumeModel.PersonalInfo.FullName,
                     Address = resumeModel.PersonalInfo.Address,
                     PhoneNumber = resumeModel.PersonalInfo.PhoneNumber,
@@ -170,15 +171,12 @@ public class CvService : ICvService
                 var template = this._context.Templates.FirstOrDefault(x => x.TemplateName == resumeModel.Template.TemplateName);
                 if (template != null)
                 {
-                    template.Resumes.Add(initialResume);
-                    initialResume.Template = template;
+                    initialResume.TemplateId = template.Id;
                 }
                 else
                     initialResume.Template = new Template
                     {
                         TemplateName = resumeModel.Template.TemplateName,
-                        FilePath = resumeModel.Template.FilePath,
-                        CssClassName = resumeModel.Template.CssClassName,
                     };
             }
 

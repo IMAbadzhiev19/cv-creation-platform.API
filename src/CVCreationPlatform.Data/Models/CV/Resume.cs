@@ -13,6 +13,8 @@ public partial class Resume
 
     public Guid UserId { get; set; }
 
+    public int TemplateId { get; set; }
+
     [Unicode(false)]
     public string? Title { get; set; }
 

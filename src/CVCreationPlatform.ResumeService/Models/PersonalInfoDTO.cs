@@ -16,6 +16,7 @@ public class PersonalInfoDTO
 		{
             this.PhotoUrl = personalInfo.PhotoUrl;
             this.FullName = personalInfo.FullName;
+			this.Description = personalInfo.Description;
             this.Address = personalInfo.Address;
             this.PhoneNumber = personalInfo.PhoneNumber;
             this.Email = personalInfo.Email;
@@ -26,6 +27,8 @@ public class PersonalInfoDTO
 
 	[Unicode(false)]
 	public string? FullName { get; set; }
+
+	public string? Description { get; set; }
 
 	[Unicode(false)]
 	public string? Address { get; set; }

@@ -12,12 +12,6 @@ public partial class Template
     [Unicode(false)]
     public string? TemplateName { get; set; }
 
-    [Unicode(false)]
-    public string? CssClassName { get; set;}
-
-    [Unicode(false)]
-    public string? FilePath { get; set; }
-
     [ForeignKey("TemplateId")]
     public virtual ICollection<Resume> Resumes { get; set; } = new List<Resume>();
 }

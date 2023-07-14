@@ -18,6 +18,9 @@ public partial class PersonalInfo
 
     [Unicode(false)]
     public string? FullName { get; set; }
+
+    public string? Description { get; set; }
+
     [Unicode(false)]
     public string? Address { get; set; }
 
