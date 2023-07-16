@@ -11,8 +11,8 @@ public class RecommendationController : ControllerBase
     public RecommendationController(ILogger<AuthController> logger)
         => (_logger) = (logger);
 
-    [HttpPost("recommendations/{resumeId}")]
-    public Task<IActionResult> Recommend([FromRoute] Guid resumeId)
+    [HttpPost("recommendations")]
+    public Task<IActionResult> Recommend([FromQuery] string text)
     {
         throw new NotImplementedException();
     }

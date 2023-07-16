@@ -15,7 +15,9 @@ public class PersonalInfoDTO
 		if (personalInfo != null)
 		{
             this.PhotoUrl = personalInfo.PhotoUrl;
-            this.FullName = personalInfo.FullName;
+            this.FirstName = personalInfo.FirstName;
+            this.MiddleName = personalInfo.MiddleName;
+            this.LastName = personalInfo.LastName;
 			this.Description = personalInfo.Description;
             this.Address = personalInfo.Address;
             this.PhoneNumber = personalInfo.PhoneNumber;
@@ -25,18 +27,17 @@ public class PersonalInfoDTO
 
 	public string? PhotoUrl { get; set; }
 
-	[Unicode(false)]
-	public string? FullName { get; set; }
+	public string? FirstName { get; set; }
+
+	public string? MiddleName { get; set; }
+
+	public string? LastName { get; set; }
 
 	public string? Description { get; set; }
 
-	[Unicode(false)]
 	public string? Address { get; set; }
 
-	[Unicode(false)]
 	public string? PhoneNumber { get; set; }
 
-	[Unicode(false)]
 	public string? Email { get; set; }
-
 }

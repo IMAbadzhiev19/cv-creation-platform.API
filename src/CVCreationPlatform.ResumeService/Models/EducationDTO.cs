@@ -19,13 +19,10 @@ public class EducationDTO
 		this.EndDate = education.EndDate;
     }
 
-	[Unicode(false)]
 	public string? InstituteName { get; set; }
 
-	[Unicode(false)]
 	public string? Degree { get; set; }
 
-	[Unicode(false)]
 	public string? FieldOfStudy { get; set; }
 
 	public DateTime? StartDate { get; set; }

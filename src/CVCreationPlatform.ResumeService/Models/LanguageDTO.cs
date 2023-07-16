@@ -16,10 +16,7 @@ public class LanguageDTO
         this.Level = language.Level;
     }
 
-
-    [Unicode(false)]
     public string? Name { get; set; }
 
-    [Unicode(false)]
     public string? Level { get; set; }
 }

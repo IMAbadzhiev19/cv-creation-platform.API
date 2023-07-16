@@ -18,6 +18,5 @@ public class TemplateDTO
         }
     }
 
-    [Unicode(false)]
     public string? TemplateName { get; set; }
 }

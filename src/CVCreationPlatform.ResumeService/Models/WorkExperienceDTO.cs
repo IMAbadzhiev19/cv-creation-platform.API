@@ -14,22 +14,22 @@ public class WorkExperienceDTO
 	{
 		this.CompanyName = workExperience.CompanyName;
 		this.Position = workExperience.Position;
+		this.Location = workExperience.Location;
 		this.StartDate = workExperience.StartDate;
 		this.EndDate = workExperience.EndDate;
 		this.Description = workExperience.Description;
 	}
 
-	[Unicode(false)]
 	public string? CompanyName { get; set; }
 
-	[Unicode(false)]
 	public string? Position { get; set; }
 
 	public DateTime? StartDate { get; set; }
 
 	public DateTime? EndDate { get; set; }
 
-	[Unicode(false)]
+	public string? Location { get; set; }
+
 	public string? Description { get; set; }
 
 }

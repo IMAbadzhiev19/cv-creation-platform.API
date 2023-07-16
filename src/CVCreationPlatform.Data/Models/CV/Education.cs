@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
 namespace Data.Models.CV;
 
@@ -11,13 +10,10 @@ public partial class Education
 
     public Guid? ResumeId { get; set; }
 
-    [Unicode(false)]
     public string? InstituteName { get; set; }
 
-    [Unicode(false)]
     public string? Degree { get; set; }
 
-    [Unicode(false)]
     public string? FieldOfStudy { get; set; }
 
     public DateTime? StartDate { get; set; }

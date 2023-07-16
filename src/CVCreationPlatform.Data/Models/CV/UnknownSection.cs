@@ -10,10 +10,8 @@ public class UnknownSection
     [Key]
     public int Id { get; set; }
 
-    [Unicode(false)]
     public string? Title { get; set; }
 
-    [Unicode(false)]
     public string? Description { get; set; }
 
     public DateTime? StartDate { get; set; }

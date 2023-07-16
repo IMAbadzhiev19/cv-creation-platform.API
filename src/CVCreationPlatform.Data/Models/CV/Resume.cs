@@ -15,7 +15,6 @@ public partial class Resume
 
     public int TemplateId { get; set; }
 
-    [Unicode(false)]
     public string? Title { get; set; }
 
     public PersonalInfo? PersonalInfo { get; set; }

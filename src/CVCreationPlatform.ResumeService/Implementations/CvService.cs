@@ -36,8 +36,8 @@ public class CvService : ICvService
     {
         await this.DeleteResumeAsync(oldResumeId);
         await this.CreateResumeAsync(newResumeModel, oldResumeId);
-        await this._context.SaveChangesAsync();
 
+        await this._context.SaveChangesAsync();
         return true;
     }
 
@@ -146,7 +146,9 @@ public class CvService : ICvService
                     ResumeId = initialResume.Id,
                     Resume = initialResume,
                     Description = resumeModel.PersonalInfo.Description,
-                    FullName = resumeModel.PersonalInfo.FullName,
+                    FirstName = resumeModel.PersonalInfo.FirstName,
+                    MiddleName = resumeModel.PersonalInfo.MiddleName,
+                    LastName = resumeModel.PersonalInfo.LastName,
                     Address = resumeModel.PersonalInfo.Address,
                     PhoneNumber = resumeModel.PersonalInfo.PhoneNumber,
                     Email = resumeModel.PersonalInfo.Email,
@@ -232,6 +234,7 @@ public class CvService : ICvService
                         Resume = initialResume,
                         CompanyName = dto.CompanyName,
                         Position = dto.Position,
+                        Location = dto.Location,
                         StartDate = dto.StartDate,
                         EndDate = dto.EndDate,
                         Description = dto.Description

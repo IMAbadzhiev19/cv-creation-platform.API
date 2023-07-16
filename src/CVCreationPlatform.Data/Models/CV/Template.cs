@@ -9,7 +9,6 @@ public partial class Template
     [Key]
     public int Id { get; set; }
 
-    [Unicode(false)]
     public string? TemplateName { get; set; }
 
     [ForeignKey("TemplateId")]
