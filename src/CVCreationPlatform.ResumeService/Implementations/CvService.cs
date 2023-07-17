@@ -10,12 +10,23 @@ namespace CVCreationPlatform.ResumeService.Implementations;
 public class CvService : ICvService
 {
     private readonly ApplicationDbContext _context;
+    private readonly IFileService _fileService;
 
-    public CvService(ApplicationDbContext context)
-        => _context = context;
+    public CvService(ApplicationDbContext context, IFileService fileService)
+        => (_context, _fileService) = (context, fileService);
 
     public async Task<Guid> CreateResumeAsync(ResumeDTO resumeModel, Guid id = default)
     {
+        var personalInfo = resumeModel.PersonalInfo;
+        if (personalInfo != null)
+        {
+            if (personalInfo.Photo != null)
+            {
+                var photoUrl = await this._fileService.UploadImage(personalInfo.Photo);
+                personalInfo.PhotoUrl = photoUrl;
+            }
+        }
+
         var resume = await this.MapToResumeAsync(resumeModel);
 
         if (id != default)

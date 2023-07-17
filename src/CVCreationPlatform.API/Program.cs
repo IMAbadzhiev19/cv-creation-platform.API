@@ -35,6 +35,7 @@ namespace CVCreationPlatform.API
 			builder.Services.AddScoped<IJWTService, JWTService>();
 			builder.Services.AddScoped<ICvService, CvService>();
 			builder.Services.AddScoped<ITemplateService, TemplateService>();
+			builder.Services.AddScoped<IFileService, FileService>();
 			builder.Services.AddControllers();
 
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
