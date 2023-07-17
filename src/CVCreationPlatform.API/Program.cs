@@ -31,6 +31,7 @@ namespace CVCreationPlatform.API
                         builder.MigrationsAssembly("CVCreationPlatform.API");
                     })
                 );
+
 			builder.Services.AddScoped<IUserService, UserService>();
 			builder.Services.AddScoped<IJWTService, JWTService>();
 			builder.Services.AddScoped<ICvService, CvService>();

@@ -12,16 +12,29 @@ public class ResumeController : ControllerBase
 {
     private readonly ILogger<AuthController> _logger;
     private readonly ICvService _resumeService;
+    private readonly IFileService _fileService;
 
-    public ResumeController(ILogger<AuthController> logger, ICvService resumeService)
-    => (_logger, _resumeService) = (logger, resumeService);
+    public ResumeController(ILogger<AuthController> logger, ICvService resumeService, IFileService fileService)
+    => (_logger, _resumeService, _fileService) = (logger, resumeService, fileService);
 
     [HttpPost("resumes")]
     public async Task<IActionResult> CreateResume([FromForm] ResumeDTO resumeModel)
     {
-        resumeModel = await this.GetRequestFormFieldsAsync(resumeModel);
         try
         {
+            var personalInfo = resumeModel.PersonalInfo;
+
+            if (personalInfo != null)
+            {
+                if (personalInfo.Photo != null)
+                {
+                    var photoUrl = await this._fileService.UploadImage(personalInfo.Photo);
+                    personalInfo.PhotoUrl = photoUrl;
+                }
+            }
+
+            resumeModel = await this.GetRequestFormFieldsAsync(resumeModel);
+
             var id = await this._resumeService.CreateResumeAsync(resumeModel);
             return Ok($"Resume id: {id}");
         }
@@ -51,6 +64,16 @@ public class ResumeController : ControllerBase
         resumeModel = await this.GetRequestFormFieldsAsync(resumeModel);
         try
         {
+            var personalInfo = resumeModel.PersonalInfo;
+
+            if (personalInfo != null)
+            {
+                if (personalInfo.Photo != null)
+                {
+                    personalInfo.PhotoUrl = await this._fileService.UploadImage(personalInfo.Photo, id);
+                }
+            }
+
             await _resumeService.UpdateResumeAsync(id, resumeModel);
             return Ok($"The resume with id: {id} has been successfully updated");
         }

@@ -4,8 +4,10 @@ using Azure.Storage.Blobs.Models;
 using Azure.Storage.Blobs.Specialized;
 using CVCreationPlatform.ResumeService.Contracts;
 using CVCreationPlatform.ResumeService.Models;
+using Data.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace CVCreationPlatform.ResumeService.Implementations;
@@ -14,17 +16,46 @@ public class FileService : IFileService
 {
     private readonly IConfiguration _configuration;
     private readonly BlobServiceClient _bloblServiceClient;
+    private readonly ApplicationDbContext _context;
 
-    public FileService(IConfiguration configuration)
-        => (_configuration, _bloblServiceClient) = (configuration, new BlobServiceClient(this._configuration["Azure:Storage:Url"]));
+    public FileService(IConfiguration configuration, ApplicationDbContext context)
+    {
+        _context = context;
+        _configuration = configuration;
+        var connectionString = this._configuration["Azure:Storage:StorageConnectionString"];
+        _bloblServiceClient = new BlobServiceClient(connectionString);
+    }
 
-    public async Task<string> UploadImage(IFormFile imageFile)
+    public async Task<string> UploadImage(IFormFile imageFile, Guid resumeId = default)
     {
         BlobContainerClient containerClient;
-        containerClient = this._bloblServiceClient.GetBlobContainerClient(this._configuration["Azure:Storage:ContainerName"]);
+        var containerName = this._configuration["Azure:Storage:ContainerName"];
+        containerClient = this._bloblServiceClient.GetBlobContainerClient(containerName);
         await containerClient.CreateIfNotExistsAsync();
 
-        BlockBlobClient blockBlobClient = containerClient.GetBlockBlobClient(Path.GetRandomFileName() + Guid.NewGuid().ToString() + Path.GetExtension(imageFile.FileName).ToLowerInvariant());
+        string url = "";
+
+        if (resumeId != default)
+        {
+            var resume = await this._context.Resumes.Include(r => r.PersonalInfo).FirstOrDefaultAsync(x => x.Id == resumeId);
+            if (resume != null)
+                if (resume.PersonalInfo != null)
+                    if (resume.PersonalInfo.PhotoUrl != null)
+                        url = resume.PersonalInfo.PhotoUrl;
+        }
+
+        string blobName = "";
+        if (!string.IsNullOrEmpty(url))
+        {
+            Uri uri = new Uri(url);
+            blobName = uri.Segments.Last();
+
+            BlobClient existingBlobClient = containerClient.GetBlobClient(blobName);
+            await existingBlobClient.DeleteIfExistsAsync();
+        }
+
+        BlockBlobClient blockBlobClient = containerClient.GetBlockBlobClient(
+            blobName == "" ? Path.GetRandomFileName() + Guid.NewGuid().ToString() + Path.GetExtension(imageFile.FileName).ToLowerInvariant() : blobName);
 
         new FileExtensionContentTypeProvider().TryGetContentType(imageFile.FileName, out var contentType);
         var blobHttpHeader = new BlobHttpHeaders
@@ -33,7 +64,7 @@ public class FileService : IFileService
         };
 
         await blockBlobClient.UploadAsync(
-            imageFile.OpenReadStream(), 
+            imageFile.OpenReadStream(),
             new BlobUploadOptions { HttpHeaders = blobHttpHeader });
 
         return blockBlobClient.Uri.AbsoluteUri;

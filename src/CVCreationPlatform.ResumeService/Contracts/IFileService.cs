@@ -4,5 +4,5 @@ namespace CVCreationPlatform.ResumeService.Contracts;
 
 public interface IFileService
 {
-    public Task<string> UploadImage(IFormFile imageFile);
+    public Task<string> UploadImage(IFormFile imageFile, Guid resumeId = default);
 }
