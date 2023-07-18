@@ -1,22 +1,21 @@
 ﻿using Data.Models.CV;
-using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
 
 namespace CVCreationPlatform.ResumeService.Models;
 
-public class TemplateDTO
+public class TemplateVM
 {
-    public TemplateDTO()
+    public TemplateVM()
     {
         
     }
-    public TemplateDTO(Template template)
+    public TemplateVM(Template? template)
     {
-        if(template != null)
+        if (template != null)
         {
+            Id = template.Id;
             this.TemplateName = template.TemplateName;
         }
     }
-
+    public int Id { get; set; }
     public string? TemplateName { get; set; }
 }

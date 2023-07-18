@@ -1,4 +1,5 @@
 ﻿using CVCreationPlatform.ResumeService.Contracts;
+using CVCreationPlatform.ResumeService.DTO;
 using CVCreationPlatform.ResumeService.Models;
 using Data.Data;
 using Data.Models.CV;
@@ -31,11 +32,9 @@ public class TemplateService : ITemplateService
         }
     }
 
-    public async Task<ICollection<TemplateDTO>> GetTemplateModelsAsync()
+    public async Task<ICollection<TemplateVM>> GetTemplateModelsAsync()
        => await _context.Templates
         .Where(t => t.TemplateName != null)
-        .Select(t => new TemplateDTO()
-       {
-           TemplateName = t.TemplateName,
-       }).ToListAsync();
+        .Select(t => new TemplateVM(t))
+        .ToListAsync();
 }

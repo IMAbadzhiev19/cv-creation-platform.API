@@ -1,17 +1,16 @@
 ﻿using Data.Models.CV;
-using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
 
 namespace CVCreationPlatform.ResumeService.Models;
 
-public class EducationDTO
+public class EducationVM
 {
-    public EducationDTO()
+    public EducationVM()
     {
         
     }
-    public EducationDTO(Education education)
+    public EducationVM(Education education)
     {
+        this.Id = education.Id;
         this.InstituteName = education.InstituteName;
 		this.Degree = education.Degree;
 		this.FieldOfStudy = education.FieldOfStudy;
@@ -19,7 +18,8 @@ public class EducationDTO
 		this.EndDate = education.EndDate;
     }
 
-	public string? InstituteName { get; set; }
+    public int Id { get; set; }
+    public string? InstituteName { get; set; }
 
 	public string? Degree { get; set; }
 

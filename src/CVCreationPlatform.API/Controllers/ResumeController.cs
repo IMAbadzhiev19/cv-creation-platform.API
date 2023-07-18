@@ -1,4 +1,5 @@
 ﻿using CVCreationPlatform.ResumeService.Contracts;
+using CVCreationPlatform.ResumeService.DTO;
 using CVCreationPlatform.ResumeService.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -45,7 +46,7 @@ public class ResumeController : ControllerBase
     }
 
     [HttpGet("resumes/{id}")]
-    public async Task<ActionResult<ResumeDTO>> GetResume([FromRoute] Guid id)
+    public async Task<ActionResult<ResumeVM>> GetResume([FromRoute] Guid id)
     {
 
         try
@@ -137,7 +138,7 @@ public class ResumeController : ControllerBase
                     resumeModel.Languages.Add(lang);
 
             if (skillsJson.Count != 0)
-                foreach (var skill in JsonConvert.DeserializeObject<List<SkillsDTO>>(skillsJson!)!)
+                foreach (var skill in JsonConvert.DeserializeObject<List<SkillDTO>>(skillsJson!)!)
                     resumeModel.Skills.Add(skill);
 
             return resumeModel;

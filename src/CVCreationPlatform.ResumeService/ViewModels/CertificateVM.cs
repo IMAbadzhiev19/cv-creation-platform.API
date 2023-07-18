@@ -1,24 +1,23 @@
 ﻿using Data.Models.CV;
-using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
 
 namespace CVCreationPlatform.ResumeService.Models;
 
-public class CertificateDTO
+public class CertificateVM
 {
-    public CertificateDTO()
+    public CertificateVM()
     {
         
     }
 
-    public CertificateDTO(Certificate certificate)
+    public CertificateVM(Certificate certificate)
     {
+        this.Id = certificate.Id;
         this.CertificateName = certificate.CertificateName;
 	    this.IssuingOrganization = certificate.IssuingOrganization;
 	    this.IssueDate = certificate.IssueDate;
     }
-
-	public string? CertificateName { get; set; }
+    public int Id { get; set; }
+    public string? CertificateName { get; set; }
 
 	public string? IssuingOrganization { get; set; }
 

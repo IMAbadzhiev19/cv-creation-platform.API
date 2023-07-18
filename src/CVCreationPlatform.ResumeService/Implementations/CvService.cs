@@ -1,5 +1,6 @@
 ﻿using CVCreationPlatform.Data.Models.CV;
 using CVCreationPlatform.ResumeService.Contracts;
+using CVCreationPlatform.ResumeService.DTO;
 using CVCreationPlatform.ResumeService.Models;
 using Data.Data;
 using Data.Models.CV;
@@ -84,7 +85,7 @@ public class CvService : ICvService
         await this._context.SaveChangesAsync();
     }
 
-    public async Task<ResumeDTO> GetResumeByIdAsync(Guid resumeId)
+    public async Task<ResumeVM> GetResumeByIdAsync(Guid resumeId)
     {
         var resumeToBeReturned = await this._context.Resumes
             .Include(r => r.PersonalInfo)
@@ -100,10 +101,10 @@ public class CvService : ICvService
         if (resumeToBeReturned == null)
             throw new ArgumentException("Invalid id");
 
-        return new ResumeDTO(resumeToBeReturned);
+        return new ResumeVM(resumeToBeReturned);
     }
 
-    public async Task<List<ResumeDTO>> GetResumesByUserIdAsync(Guid userId)
+    public async Task<List<ResumeVM>> GetResumesByUserIdAsync(Guid userId)
     {
         var user = await this._context.Users.FindAsync(userId);
         if (user == null)
@@ -119,7 +120,7 @@ public class CvService : ICvService
             .Include(r => r.Skills)
             .Include(r => r.Educations)
             .Where(x => x.UserId == userId)
-            .Select(x => new ResumeDTO(x))
+            .Select(x => new ResumeVM(x))
             .ToListAsync();
 
         return resumes;

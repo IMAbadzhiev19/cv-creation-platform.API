@@ -1,22 +1,18 @@
 ﻿using Data.Models.CV;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 
 namespace CVCreationPlatform.ResumeService.Models;
 
-public class PersonalInfoDTO
+public class PersonalInfoVM
 {
-    public PersonalInfoDTO()
+    public PersonalInfoVM()
     {
 
     }
-    public PersonalInfoDTO(PersonalInfo personalInfo)
+    public PersonalInfoVM(PersonalInfo? personalInfo)
     {
         if (personalInfo != null)
         {
+            this.Id = personalInfo.Id;
             this.PhotoUrl = personalInfo.PhotoUrl;
             this.FirstName = personalInfo.FirstName;
             this.MiddleName = personalInfo.MiddleName;
@@ -27,9 +23,7 @@ public class PersonalInfoDTO
             this.Email = personalInfo.Email;
         }
     }
-
-    public IFormFile? Photo { get; set; }
-
+    public int Id { get; set; }
     public string? PhotoUrl { get; set; }
 
 	public string? FirstName { get; set; }
