@@ -1,12 +1,12 @@
 ﻿using CVCreationPlatform.Data.Models.CV;
 
-namespace CVCreationPlatform.ResumeService.Models;
+namespace CVCreationPlatform.ResumeService.Models.ViewModels;
 
 public class UnknownSectionVM
 {
     public UnknownSectionVM()
     {
-        
+
     }
 
     public UnknownSectionVM(UnknownSection? unknownSection)
@@ -14,10 +14,10 @@ public class UnknownSectionVM
         if (unknownSection != null)
         {
             Id = unknownSection.Id;
-            this.Title = unknownSection.Title;
-            this.Description = unknownSection.Description;
-            this.StartDate = unknownSection.StartDate;
-            this.EndDate = unknownSection.EndDate;
+            Title = unknownSection.Title;
+            Description = unknownSection.Description;
+            StartDate = unknownSection.StartDate;
+            EndDate = unknownSection.EndDate;
         }
     }
     public int Id { get; set; }

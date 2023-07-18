@@ -1,4 +1,4 @@
-﻿namespace CVCreationPlatform.ResumeService.DTO
+﻿namespace CVCreationPlatform.ResumeService.Models.DTO
 {
     public class TemplateDTO
     {

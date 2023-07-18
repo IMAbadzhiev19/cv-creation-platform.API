@@ -1,6 +1,5 @@
 ﻿using CVCreationPlatform.ResumeService.Contracts;
-using CVCreationPlatform.ResumeService.DTO;
-using CVCreationPlatform.ResumeService.Models;
+using CVCreationPlatform.ResumeService.Models.ViewModels;
 using Data.Data;
 using Data.Models.CV;
 using Microsoft.EntityFrameworkCore;
@@ -13,24 +12,6 @@ public class TemplateService : ITemplateService
 
     public TemplateService(ApplicationDbContext context)
         => _context = context;
-
-    public async Task<bool> AddTemplate(TemplateDTO templateModel)
-    {
-        Template? template = null!;
-        try
-        {
-            template = new Template()
-            {
-                TemplateName = templateModel.TemplateName,
-            };
-            await _context.Templates.AddAsync(template);
-            return true;
-        }
-        catch
-        {
-            return false;
-        }
-    }
 
     public async Task<ICollection<TemplateVM>> GetTemplateModelsAsync()
        => await _context.Templates

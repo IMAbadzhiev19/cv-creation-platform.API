@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace CVCreationPlatform.ResumeService.DTO
+namespace CVCreationPlatform.ResumeService.Models.DTO
 {
     public class PersonalInfoDTO
     {
         public IFormFile? Photo { get; set; }
-        public string? PhotoUrl { get; set; }
+
         public string? FirstName { get; set; }
 
         public string? MiddleName { get; set; }

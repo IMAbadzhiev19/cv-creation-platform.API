@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace CVCreationPlatform.ResumeService.Contracts;
+namespace CVCreationPlatform.ResumeService.Contracts.BlobStorage;
 
 public interface IFileService
 {

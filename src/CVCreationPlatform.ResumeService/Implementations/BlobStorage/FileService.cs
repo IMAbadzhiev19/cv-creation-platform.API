@@ -1,16 +1,14 @@
-﻿using Azure.Core;
-using Azure.Storage.Blobs;
+﻿using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Azure.Storage.Blobs.Specialized;
-using CVCreationPlatform.ResumeService.Contracts;
-using CVCreationPlatform.ResumeService.Models;
+using CVCreationPlatform.ResumeService.Contracts.BlobStorage;
 using Data.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace CVCreationPlatform.ResumeService.Implementations;
+namespace CVCreationPlatform.ResumeService.Implementations.BlobStorage;
 
 public class FileService : IFileService
 {
@@ -22,22 +20,22 @@ public class FileService : IFileService
     {
         _context = context;
         _configuration = configuration;
-        var connectionString = this._configuration["Azure:Storage:StorageConnectionString"];
+        var connectionString = _configuration["Azure:Storage:StorageConnectionString"];
         _bloblServiceClient = new BlobServiceClient(connectionString);
     }
 
     public async Task<string> UploadImage(IFormFile imageFile, Guid resumeId = default)
     {
         BlobContainerClient containerClient;
-        var containerName = this._configuration["Azure:Storage:ContainerName"];
-        containerClient = this._bloblServiceClient.GetBlobContainerClient(containerName);
+        var containerName = _configuration["Azure:Storage:ContainerName"];
+        containerClient = _bloblServiceClient.GetBlobContainerClient(containerName);
         await containerClient.CreateIfNotExistsAsync();
 
         string url = "";
 
         if (resumeId != default)
         {
-            var resume = await this._context.Resumes.Include(r => r.PersonalInfo).FirstOrDefaultAsync(x => x.Id == resumeId);
+            var resume = await _context.Resumes.Include(r => r.PersonalInfo).FirstOrDefaultAsync(x => x.Id == resumeId);
             if (resume != null)
                 if (resume.PersonalInfo != null)
                     if (resume.PersonalInfo.PhotoUrl != null)

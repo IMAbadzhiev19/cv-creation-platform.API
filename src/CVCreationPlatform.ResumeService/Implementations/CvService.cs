@@ -1,7 +1,7 @@
 ﻿using CVCreationPlatform.Data.Models.CV;
 using CVCreationPlatform.ResumeService.Contracts;
-using CVCreationPlatform.ResumeService.DTO;
-using CVCreationPlatform.ResumeService.Models;
+using CVCreationPlatform.ResumeService.Models.DTO;
+using CVCreationPlatform.ResumeService.Models.ViewModels;
 using Data.Data;
 using Data.Models.CV;
 using Microsoft.EntityFrameworkCore;
@@ -13,88 +13,127 @@ public class CvService : ICvService
     private readonly ApplicationDbContext _context;
 
     public CvService(ApplicationDbContext context)
-        => (_context) = (context);
+        => _context = context;
 
-    public async Task<Guid> CreateResumeAsync(ResumeDTO resumeModel, Guid id = default)
+    public async Task<Guid> CreateResumeAsync(ResumeDTO resumeModel, string photoUrl)
     {
-        var resume = await this.MapToResumeAsync(resumeModel);
+        var resume = await MapToResumeAsync(resumeModel, photoUrl);
 
-        if (id != default)
-            resume.Id = id;
-
-        await this._context.Resumes.AddAsync(resume);
-        await this._context.Certificates.AddRangeAsync(resume.Certificates);
-        await this._context.Educations.AddRangeAsync(resume.Educations);
-        await this._context.Languages.AddRangeAsync(resume.Languages);
-        await this._context.WorkExperiences.AddRangeAsync(resume.WorkExperiences);
-        await this._context.Skills.AddRangeAsync(resume.Skills);
-
-        await this._context.SaveChangesAsync();
+        await _context.Resumes.AddAsync(resume);
+        await _context.SaveChangesAsync();
         return resume.Id;
     }
 
-    public async Task<bool> UpdateResumeAsync(Guid oldResumeId, ResumeDTO newResumeModel)
+    public async Task<bool> UpdateResumeAsync(Guid oldResumeId, ResumeDTO newResumeModel, string photoUrl)
     {
-        await this.DeleteResumeAsync(oldResumeId);
-        await this.CreateResumeAsync(newResumeModel, oldResumeId);
+        var resume = await this._context.Resumes.FirstOrDefaultAsync(r => r.Id == oldResumeId);
+        if (resume == null)
+            throw new ArgumentException("Invalid resume id");
 
-        await this._context.SaveChangesAsync();
+        resume.Title = newResumeModel.Title;
+        resume.CreationDate = newResumeModel.CreationDate;
+
+        if (newResumeModel.PersonalInfo != null)
+        {
+            resume.PersonalInfo = new PersonalInfo
+            {
+                ResumeId = resume.Id,
+                Resume = resume,
+                Description = newResumeModel.PersonalInfo.Description,
+                FirstName = newResumeModel.PersonalInfo.FirstName,
+                MiddleName = newResumeModel.PersonalInfo.MiddleName,
+                LastName = newResumeModel.PersonalInfo.LastName,
+                Address = newResumeModel.PersonalInfo.Address,
+                PhoneNumber = newResumeModel.PersonalInfo.PhoneNumber,
+                Email = newResumeModel.PersonalInfo.Email,
+                PhotoUrl = photoUrl
+            };
+        }
+
+        if (newResumeModel.UnknownSection != null)
+        {
+            resume.UnknownSection = new UnknownSection
+            {
+                ResumeId = resume.Id,
+                Resume = resume,
+                Title = newResumeModel.UnknownSection.Title,
+                Description = newResumeModel.UnknownSection.Description,
+                StartDate = newResumeModel.UnknownSection.StartDate,
+                EndDate = newResumeModel.UnknownSection.EndDate,
+            };
+        }
+
+        if (newResumeModel.Template != null)
+        {
+            var template = _context.Templates.FirstOrDefault(x => x.TemplateName == newResumeModel.Template.TemplateName);
+            if (template != null)
+            {
+                resume.TemplateId = template.Id;
+            }
+            else
+                resume.Template = new Template
+                {
+                    TemplateName = newResumeModel.Template.TemplateName,
+                };
+        }
+
+        await _context.SaveChangesAsync();
         return true;
     }
 
     public async Task DeleteResumeAsync(Guid resumeId)
     {
-        var resumeToDelete = await this._context.Resumes.FirstOrDefaultAsync(x => x.Id == resumeId);
+        var resumeToDelete = await _context.Resumes.FirstOrDefaultAsync(x => x.Id == resumeId);
 
         if (resumeToDelete == null)
             throw new ArgumentException("Invalid id");
 
-        var personalInfoToRemove = await this._context.PersonalInfos.FirstOrDefaultAsync(x => x.ResumeId == resumeId);
+        var personalInfoToRemove = await _context.PersonalInfos.FirstOrDefaultAsync(x => x.ResumeId == resumeId);
         if (personalInfoToRemove != null)
-            this._context.PersonalInfos.Remove(personalInfoToRemove);
+            _context.PersonalInfos.Remove(personalInfoToRemove);
 
-        var unknownSectionToRemove = await this._context.UnknownSections.FirstOrDefaultAsync(x => x.ResumeId == resumeId);
+        var unknownSectionToRemove = await _context.UnknownSections.FirstOrDefaultAsync(x => x.ResumeId == resumeId);
         if (unknownSectionToRemove != null)
-            this._context.UnknownSections.Remove(unknownSectionToRemove);
+            _context.UnknownSections.Remove(unknownSectionToRemove);
 
-        var workExperiencesToRemove = await this._context.WorkExperiences.Where(x => x.ResumeId == resumeId).ToListAsync();
+        var workExperiencesToRemove = await _context.WorkExperiences.Where(x => x.ResumeId == resumeId).ToListAsync();
         if (workExperiencesToRemove.Count != 0)
-            this._context.WorkExperiences.RemoveRange(workExperiencesToRemove);
+            _context.WorkExperiences.RemoveRange(workExperiencesToRemove);
 
-        var certificatesToRemove = await this._context.Certificates.Where(x => x.ResumeId == resumeId).ToListAsync();
+        var certificatesToRemove = await _context.Certificates.Where(x => x.ResumeId == resumeId).ToListAsync();
         if (certificatesToRemove.Count != 0)
-            this._context.Certificates.RemoveRange(certificatesToRemove);
+            _context.Certificates.RemoveRange(certificatesToRemove);
 
-        var languagesToRemove = await this._context.Languages.Where(x => x.ResumeId == resumeId).ToListAsync();
+        var languagesToRemove = await _context.Languages.Where(x => x.ResumeId == resumeId).ToListAsync();
         if (languagesToRemove.Count != 0)
-            this._context.Languages.RemoveRange(languagesToRemove);
+            _context.Languages.RemoveRange(languagesToRemove);
 
-        var educationsToRemove = await this._context.Educations.Where(x => x.ResumeId == resumeId).ToListAsync();
+        var educationsToRemove = await _context.Educations.Where(x => x.ResumeId == resumeId).ToListAsync();
         if (educationsToRemove.Count != 0)
-            this._context.Educations.RemoveRange(educationsToRemove);
+            _context.Educations.RemoveRange(educationsToRemove);
 
-        var skillsToRemove = await this._context.Skills.Where(x => x.Resumes.All(x => x.Id == resumeId)).ToListAsync();
+        var skillsToRemove = await _context.Skills.Where(x => x.Resumes.All(x => x.Id == resumeId)).ToListAsync();
         if (skillsToRemove.Count != 0)
-            this._context.Skills.RemoveRange(skillsToRemove);
+            _context.Skills.RemoveRange(skillsToRemove);
 
         var template = resumeToDelete.Template;
         if (template != null)
             template.Resumes.Remove(resumeToDelete);
 
-        this._context.Resumes.Remove(resumeToDelete);
-        await this._context.SaveChangesAsync();
+        _context.Resumes.Remove(resumeToDelete);
+        await _context.SaveChangesAsync();
     }
 
     public async Task<ResumeVM> GetResumeByIdAsync(Guid resumeId)
     {
-        var resumeToBeReturned = await this._context.Resumes
+        var resumeToBeReturned = await _context.Resumes
             .Include(r => r.PersonalInfo)
             .Include(r => r.UnknownSection)
             .Include(r => r.Template)
             .Include(r => r.WorkExperiences)
             .Include(r => r.Certificates)
             .Include(r => r.Languages)
-            .Include (r => r.Skills)
+            .Include(r => r.Skills)
             .Include(r => r.Educations)
             .FirstOrDefaultAsync(x => x.Id == resumeId);
 
@@ -106,11 +145,11 @@ public class CvService : ICvService
 
     public async Task<List<ResumeVM>> GetResumesByUserIdAsync(Guid userId)
     {
-        var user = await this._context.Users.FindAsync(userId);
+        var user = await _context.Users.FindAsync(userId);
         if (user == null)
             throw new ArgumentException("Invalid id");
 
-        var resumes = await this._context.Resumes
+        var resumes = await _context.Resumes
             .Include(r => r.PersonalInfo)
             .Include(r => r.UnknownSection)
             .Include(r => r.Template)
@@ -126,8 +165,7 @@ public class CvService : ICvService
         return resumes;
     }
 
-
-    private async Task<Resume> MapToResumeAsync(ResumeDTO resumeModel)
+    private async Task<Resume> MapToResumeAsync(ResumeDTO resumeModel, string photoUrl)
     {
         return await Task.Run(() =>
         {
@@ -139,11 +177,10 @@ public class CvService : ICvService
                 CreationDate = resumeModel.CreationDate,
             };
 
-            if(resumeModel.PersonalInfo != null)
+            if (resumeModel.PersonalInfo != null)
             {
                 initialResume.PersonalInfo = new PersonalInfo
                 {
-                    PhotoUrl = resumeModel.PersonalInfo.PhotoUrl,
                     ResumeId = initialResume.Id,
                     Resume = initialResume,
                     Description = resumeModel.PersonalInfo.Description,
@@ -153,6 +190,7 @@ public class CvService : ICvService
                     Address = resumeModel.PersonalInfo.Address,
                     PhoneNumber = resumeModel.PersonalInfo.PhoneNumber,
                     Email = resumeModel.PersonalInfo.Email,
+                    PhotoUrl = photoUrl
                 };
             }
 
@@ -171,7 +209,7 @@ public class CvService : ICvService
 
             if (resumeModel.Template != null)
             {
-                var template = this._context.Templates.FirstOrDefault(x => x.TemplateName == resumeModel.Template.TemplateName);
+                var template = _context.Templates.FirstOrDefault(x => x.TemplateName == resumeModel.Template.TemplateName);
                 if (template != null)
                 {
                     initialResume.TemplateId = template.Id;
@@ -181,79 +219,6 @@ public class CvService : ICvService
                     {
                         TemplateName = resumeModel.Template.TemplateName,
                     };
-            }
-
-            if (resumeModel.Certificates.Count != 0)
-            {
-                initialResume.Certificates = new List<Certificate>(resumeModel.Certificates
-                .Select(dto => new Certificate
-                {
-                    ResumeId = initialResume.Id,
-                    Resume = initialResume,
-                    CertificateName = dto.CertificateName,
-                    IssuingOrganization = dto.IssuingOrganization,
-                    IssueDate = dto.IssueDate,
-                })
-            );
-            }
-
-            if (resumeModel.Educations.Count != 0)
-            {
-                initialResume.Educations = new List<Education>(resumeModel.Educations
-                    .Select(dto => new Education
-                    {
-                        ResumeId = initialResume.Id,
-                        Resume = initialResume,
-                        InstituteName = dto.InstituteName,
-                        Degree = dto.Degree,
-                        FieldOfStudy = dto.FieldOfStudy,
-                        StartDate = dto.StartDate,
-                        EndDate = dto.EndDate
-                    })
-                );
-            }
-
-            if (resumeModel.Languages.Count != 0)
-            {
-                initialResume.Languages = new List<Language>(resumeModel.Languages
-                    .Select(dto => new Language
-                    {
-                        Name = dto.Name,
-                        Level = dto.Level,
-                        ResumeId = initialResume.Id,
-                        Resume = initialResume,
-                    })
-                );
-            }
-
-            if (resumeModel.WorkExperiences.Count != 0)
-            {
-                initialResume.WorkExperiences = new List<WorkExperience>(resumeModel.WorkExperiences
-                    .Select(dto => new WorkExperience
-                    {
-                        ResumeId = initialResume.Id,
-                        Resume = initialResume,
-                        CompanyName = dto.CompanyName,
-                        Position = dto.Position,
-                        Location = dto.Location,
-                        StartDate = dto.StartDate,
-                        EndDate = dto.EndDate,
-                        Description = dto.Description
-                    })
-                );
-            }
-
-            if (resumeModel.Skills.Count != 0)
-            {
-                initialResume.Skills = new List<Skill>(resumeModel.Skills
-                    .Select(dto => new Skill
-                    {
-                        SkillName = dto.SkillName,
-                    })
-                );
-
-                foreach (var skill in initialResume.Skills)
-                    skill.Resumes.Add(initialResume);
             }
 
             return initialResume;

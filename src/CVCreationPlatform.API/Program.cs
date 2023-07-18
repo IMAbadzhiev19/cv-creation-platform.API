@@ -1,7 +1,9 @@
 using CVCreationPlatform.AuthService.Contracts;
 using CVCreationPlatform.AuthService.Implementations;
 using CVCreationPlatform.ResumeService.Contracts;
+using CVCreationPlatform.ResumeService.Contracts.BlobStorage;
 using CVCreationPlatform.ResumeService.Implementations;
+using CVCreationPlatform.ResumeService.Implementations.BlobStorage;
 using Data.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +14,7 @@ using System.Text;
 
 namespace CVCreationPlatform.API
 {
-	public class Program
+    public class Program
 	{
 		public static void Main(string[] args)
 		{
@@ -37,6 +39,11 @@ namespace CVCreationPlatform.API
 			builder.Services.AddScoped<ICvService, CvService>();
 			builder.Services.AddScoped<ITemplateService, TemplateService>();
 			builder.Services.AddScoped<IFileService, FileService>();
+			builder.Services.AddScoped<ILanguageService, LanguageService>();
+			builder.Services.AddScoped<IEducationService, EducationService>();
+			builder.Services.AddScoped<ISkillService, SkillService>();
+			builder.Services.AddScoped<IWorkExperienceService, WorkExperienceService>();
+			builder.Services.AddScoped<ICertificateService, CertificateService>();
 			builder.Services.AddControllers();
 
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

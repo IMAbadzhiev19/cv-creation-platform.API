@@ -1,19 +1,19 @@
 ﻿using Data.Models.CV;
 
-namespace CVCreationPlatform.ResumeService.Models;
+namespace CVCreationPlatform.ResumeService.Models.ViewModels;
 
 public class LanguageVM
 {
     public LanguageVM()
     {
-        
+
     }
 
     public LanguageVM(Language language)
     {
-        this.Id = language.Id;
-        this.Name = language.Name;
-        this.Level = language.Level;
+        Id = language.Id;
+        Name = language.Name;
+        Level = language.Level;
     }
     public int Id { get; set; }
     public string? Name { get; set; }
