@@ -26,7 +26,11 @@ public class CvService : ICvService
 
     public async Task<bool> UpdateResumeAsync(Guid oldResumeId, ResumeDTO newResumeModel, string photoUrl)
     {
-        var resume = await this._context.Resumes.FirstOrDefaultAsync(r => r.Id == oldResumeId);
+        var resume = await this._context.Resumes
+            .Include(r => r.PersonalInfo)
+            .Include(r => r.UnknownSection)
+            .Include(r => r.Template)
+            .FirstOrDefaultAsync(r => r.Id == oldResumeId);
         if (resume == null)
             throw new ArgumentException("Invalid resume id");
 
@@ -35,32 +39,26 @@ public class CvService : ICvService
 
         if (newResumeModel.PersonalInfo != null)
         {
-            resume.PersonalInfo = new PersonalInfo
-            {
-                ResumeId = resume.Id,
-                Resume = resume,
-                Description = newResumeModel.PersonalInfo.Description,
-                FirstName = newResumeModel.PersonalInfo.FirstName,
-                MiddleName = newResumeModel.PersonalInfo.MiddleName,
-                LastName = newResumeModel.PersonalInfo.LastName,
-                Address = newResumeModel.PersonalInfo.Address,
-                PhoneNumber = newResumeModel.PersonalInfo.PhoneNumber,
-                Email = newResumeModel.PersonalInfo.Email,
-                PhotoUrl = photoUrl
-            };
+            if (resume.PersonalInfo == null)
+                resume.PersonalInfo = new PersonalInfo();
+            resume.PersonalInfo.Description = newResumeModel.PersonalInfo.Description;
+            resume.PersonalInfo.FirstName = newResumeModel.PersonalInfo.FirstName;
+            resume.PersonalInfo.MiddleName = newResumeModel.PersonalInfo.MiddleName;
+            resume.PersonalInfo.LastName = newResumeModel.PersonalInfo.LastName;
+            resume.PersonalInfo.Address = newResumeModel.PersonalInfo.Address;
+            resume.PersonalInfo.PhoneNumber = newResumeModel.PersonalInfo.PhoneNumber;
+            resume.PersonalInfo.Email = newResumeModel.PersonalInfo.Email;
+            resume.PersonalInfo.PhotoUrl = photoUrl;
         }
 
         if (newResumeModel.UnknownSection != null)
         {
-            resume.UnknownSection = new UnknownSection
-            {
-                ResumeId = resume.Id,
-                Resume = resume,
-                Title = newResumeModel.UnknownSection.Title,
-                Description = newResumeModel.UnknownSection.Description,
-                StartDate = newResumeModel.UnknownSection.StartDate,
-                EndDate = newResumeModel.UnknownSection.EndDate,
-            };
+            if (resume.UnknownSection == null)
+                resume.UnknownSection = new UnknownSection();
+            resume.UnknownSection.Title = newResumeModel.UnknownSection.Title;
+            resume.UnknownSection.Description = newResumeModel.UnknownSection.Description;
+            resume.UnknownSection.StartDate = newResumeModel.UnknownSection.StartDate;
+            resume.UnknownSection.EndDate = newResumeModel.UnknownSection.EndDate;
         }
 
         if (newResumeModel.Template != null)
@@ -71,14 +69,19 @@ public class CvService : ICvService
                 resume.TemplateId = template.Id;
             }
             else
-                resume.Template = new Template
+            {
+                Template newTempplate = new Template
                 {
                     TemplateName = newResumeModel.Template.TemplateName,
                 };
+                await _context.Templates.AddAsync(newTempplate);
+                resume.Template = newTempplate;
+            }
         }
 
         await _context.SaveChangesAsync();
         return true;
+
     }
 
     public async Task DeleteResumeAsync(Guid resumeId)
