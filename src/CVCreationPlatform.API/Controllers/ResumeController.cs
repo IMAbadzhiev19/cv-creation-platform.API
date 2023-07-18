@@ -4,6 +4,7 @@ using CVCreationPlatform.ResumeService.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace CVCreationPlatform.API.Controllers;
 
@@ -115,31 +116,76 @@ public class ResumeController : ControllerBase
     {
         return await Task.Run(() =>
         {
-            var certificatesJson = HttpContext.Request.Form["Certificates"];
-            var educationsJson = HttpContext.Request.Form["Educations"];
-            var workExperiencesJson = HttpContext.Request.Form["WorkExperiences"];
-            var languagesJson = HttpContext.Request.Form["Languages"];
-            var skillsJson = HttpContext.Request.Form["Skills"];
+            var certificatesJson = HttpContext.Request.Form["Certificates"].ToString();
+            var educationsJson = HttpContext.Request.Form["Educations"].ToString();
+            var workExperiencesJson = HttpContext.Request.Form["WorkExperiences"].ToString();
+            var languagesJson = HttpContext.Request.Form["Languages"].ToString();
+            var skillsJson = HttpContext.Request.Form["Skills"].ToString();
 
-            if (certificatesJson.Count != 0)
-                foreach (var cert in JsonConvert.DeserializeObject<List<CertificateDTO>>(certificatesJson!)!)
-                    resumeModel.Certificates.Add(cert);
+            if (!string.IsNullOrEmpty(certificatesJson))
+            {
+                certificatesJson = certificatesJson.Remove(0, 1).Insert(0, "[{");
+                certificatesJson = certificatesJson.Remove(certificatesJson.Length - 1, 1).Insert(certificatesJson.Length - 1, "}]");
+                var certificatesArray = JArray.Parse(certificatesJson);
 
-            if (educationsJson.Count != 0)
-                foreach (var educ in JsonConvert.DeserializeObject<List<EducationDTO >> (educationsJson!)!)
-                    resumeModel.Educations.Add(educ);
+                foreach (var cert in certificatesArray)
+                {
+                    var certificate = cert.ToObject<CertificateDTO>();
+                    resumeModel.Certificates.Add(certificate);
+                }
+            }
 
-            if (workExperiencesJson.Count != 0)
-                foreach (var workExp in JsonConvert.DeserializeObject<List<WorkExperienceDTO>>(workExperiencesJson!)!)
-                    resumeModel.WorkExperiences.Add(workExp);
+            if (!string.IsNullOrEmpty(educationsJson))
+            {
+                educationsJson = educationsJson.Remove(0, 1).Insert(0, "[{");
+                educationsJson = educationsJson.Remove(educationsJson.Length - 1, 1).Insert(educationsJson.Length - 1, "}]");
+                var educationsArray = JArray.Parse(educationsJson);
 
-            if (languagesJson.Count != 0)
-                foreach (var lang in JsonConvert.DeserializeObject<List<LanguageDTO>>(languagesJson!)!)
-                    resumeModel.Languages.Add(lang);
+                foreach (var educ in educationsArray)
+                {
+                    var education = educ.ToObject<EducationDTO>();
+                    resumeModel.Educations.Add(education);
+                }
+            }
 
-            if (skillsJson.Count != 0)
-                foreach (var skill in JsonConvert.DeserializeObject<List<SkillDTO>>(skillsJson!)!)
-                    resumeModel.Skills.Add(skill);
+            if (!string.IsNullOrEmpty(workExperiencesJson))
+            {
+                workExperiencesJson = workExperiencesJson.Remove(0, 1).Insert(0, "[{");
+                workExperiencesJson = workExperiencesJson.Remove(workExperiencesJson.Length - 1, 1).Insert(workExperiencesJson.Length - 1, "}]");
+                var workExperiencesArray = JArray.Parse(workExperiencesJson);
+
+                foreach (var workExp in workExperiencesArray)
+                {
+                    var workExperience = workExp.ToObject<WorkExperienceDTO>();
+                    resumeModel.WorkExperiences.Add(workExperience);
+                }
+            }
+
+            if (!string.IsNullOrEmpty(languagesJson))
+            {
+                languagesJson = languagesJson.Remove(0, 1).Insert(0, "[{");
+                languagesJson = languagesJson.Remove(languagesJson.Length - 1, 1).Insert(languagesJson.Length - 1, "}]");
+                var languageArray = JArray.Parse(languagesJson);
+
+                foreach (var lang in languageArray)
+                {
+                    var language = lang.ToObject<LanguageDTO>();
+                    resumeModel.Languages.Add(language);
+                }
+            }
+
+            if (!string.IsNullOrEmpty(skillsJson))
+            {
+                skillsJson = skillsJson.Remove(0, 1).Insert(0, "[{");
+                skillsJson = skillsJson.Remove(skillsJson.Length - 1, 1).Insert(skillsJson.Length - 1, "}]");
+                var skillsArray = JArray.Parse(skillsJson);
+
+                foreach (var skill in skillsArray)
+                {
+                    var skillDTO = skill.ToObject<SkillDTO>();
+                    resumeModel.Skills.Add(skillDTO);
+                }
+            }
 
             return resumeModel;
         });
