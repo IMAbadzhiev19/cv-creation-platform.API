@@ -1,3 +1,5 @@
+using CVCreationPlatform.AiService.Contracts;
+using CVCreationPlatform.AiService.Implementations;
 using CVCreationPlatform.AuthService.Contracts;
 using CVCreationPlatform.AuthService.Implementations;
 using CVCreationPlatform.ResumeService.Contracts;
@@ -44,6 +46,7 @@ namespace CVCreationPlatform.API
 			builder.Services.AddScoped<ISkillService, SkillService>();
 			builder.Services.AddScoped<IWorkExperienceService, WorkExperienceService>();
 			builder.Services.AddScoped<ICertificateService, CertificateService>();
+			builder.Services.AddScoped<IAzureLanguageService, AzureLanguageService>();
 			builder.Services.AddControllers();
 
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

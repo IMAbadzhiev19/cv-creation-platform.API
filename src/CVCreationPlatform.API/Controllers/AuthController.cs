@@ -43,12 +43,14 @@ public class AuthController : ControllerBase
             }
 
             var rf = await this._userService.GetRefreshTockenAsync(loginModel.Username);
+            var jwtOptions = await this._jWTService.CreateTokenAsync(loginModel);
 
             var userToReturn = new UserDTO()
             {
                 Id = user.Id,
                 Username = user.Username,
-                Jwt = await this._jWTService.CreateTokenAsync(loginModel),
+                Jwt = jwtOptions.Item1,
+                JWTExpirationDate = jwtOptions.Item2,
                 RefreshToken = rf.Token,
                 RefreshTokenExpirationDate = rf.TokenExpires,
             };
@@ -89,7 +91,13 @@ public class AuthController : ControllerBase
                 Password = user.Password!,
             };
 
-            return Ok(await this._jWTService.CreateTokenAsync(loginModel));
+            var jwtOptions = await this._jWTService.CreateTokenAsync(loginModel);
+
+            return Ok(new
+            {
+                Jwt = jwtOptions.Item1,
+                JwtExpirationDate = jwtOptions.Item2
+            });
         }
         catch(Exception e)
         {

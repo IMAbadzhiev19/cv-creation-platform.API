@@ -10,6 +10,8 @@ namespace CVCreationPlatform.AuthService.Models.Auth
 
         public string? Jwt { get; set; }
 
+        public DateTime? JWTExpirationDate { get; set; }
+
         public string? RefreshToken { get; set; }
 
         public DateTime? RefreshTokenExpirationDate { get; set; }

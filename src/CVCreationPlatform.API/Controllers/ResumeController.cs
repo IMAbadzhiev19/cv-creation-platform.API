@@ -4,8 +4,6 @@ using CVCreationPlatform.ResumeService.Models.DTO;
 using CVCreationPlatform.ResumeService.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace CVCreationPlatform.API.Controllers;
 
@@ -102,6 +100,20 @@ public class ResumeController : ControllerBase
             return Ok(await this._resumeService.GetResumesByUserIdAsync(userId));
         }
         catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
+    }
+
+    [HttpPost("resumes/share")]
+    public async Task<IActionResult> ShareResume([FromForm] ShareDTO shareDto)
+    {
+        try
+        {
+            await this._resumeService.ShareResumeAsync(shareDto);
+            return Ok();
+        }
+        catch(Exception ex)
         {
             return StatusCode(500, ex.Message);
         }

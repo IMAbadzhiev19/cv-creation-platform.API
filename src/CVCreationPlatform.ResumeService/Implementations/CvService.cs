@@ -1,19 +1,24 @@
-﻿using CVCreationPlatform.Data.Models.CV;
+﻿using Azure.Communication.Email;
+using CVCreationPlatform.Data.Models.CV;
 using CVCreationPlatform.ResumeService.Contracts;
 using CVCreationPlatform.ResumeService.Models.DTO;
 using CVCreationPlatform.ResumeService.Models.ViewModels;
 using Data.Data;
 using Data.Models.CV;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System.Net.Mail;
 
 namespace CVCreationPlatform.ResumeService.Implementations;
 
 public class CvService : ICvService
 {
     private readonly ApplicationDbContext _context;
+    private readonly IConfiguration _configuration;
 
-    public CvService(ApplicationDbContext context)
-        => _context = context;
+    public CvService(IConfiguration configuration, ApplicationDbContext context)
+        => (_configuration, _context) = (configuration, context);
 
     public async Task<Guid> CreateResumeAsync(ResumeDTO resumeModel, string photoUrl)
     {
@@ -223,5 +228,27 @@ public class CvService : ICvService
 
             return initialResume;
         });
+    }
+
+    public async Task ShareResumeAsync(ShareDTO shareDto)
+    {
+        EmailClient emailClient = new EmailClient(this._configuration["Azure:EmailClient:ConnectionString"]);
+        EmailContent emailContent = new EmailContent($"{shareDto.FirstName} {shareDto.LastName} shared this resume with you!");
+        emailContent.PlainText = "Send with Microsoft Azure";
+        var emailAddresses = new List<EmailAddress> { new EmailAddress(shareDto.ReceiptantEmail) };
+        var emailReceiptents = new EmailRecipients(emailAddresses);
+        EmailMessage emailMessage = new EmailMessage("DoNotReply@1700a80a-2d42-4be7-8886-41da41cbc9cc.azurecomm.net", emailReceiptents, emailContent);
+
+        using (var stream = shareDto.File.OpenReadStream())
+        {
+            byte[] bytes = new byte[stream.Length];
+            stream.Read(bytes, 0, (int)shareDto.File.Length);
+            BinaryData binaryData = new BinaryData(bytes);
+
+            var attachment = new EmailAttachment(shareDto.File.FileName, "application/pdf", binaryData);
+            emailMessage.Attachments.Add(attachment);
+        }
+
+        await emailClient.SendAsync(Azure.WaitUntil.Completed, emailMessage);
     }
 }

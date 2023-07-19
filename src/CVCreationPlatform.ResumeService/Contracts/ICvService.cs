@@ -1,5 +1,6 @@
 ﻿using CVCreationPlatform.ResumeService.Models.DTO;
 using CVCreationPlatform.ResumeService.Models.ViewModels;
+using Microsoft.AspNetCore.Http;
 
 namespace CVCreationPlatform.ResumeService.Contracts;
 
@@ -10,4 +11,5 @@ public interface ICvService
     Task DeleteResumeAsync(Guid resumeId);
     Task<List<ResumeVM>> GetResumesByUserIdAsync(Guid userId);
     Task<ResumeVM> GetResumeByIdAsync(Guid resumeId);
+    Task ShareResumeAsync(ShareDTO shareDto);
 }

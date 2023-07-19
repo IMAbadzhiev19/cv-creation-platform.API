@@ -23,7 +23,7 @@ public class JWTService : IJWTService
 		_configuration = configuration;
 	}
 
-    public async Task<string> CreateTokenAsync(LoginModel user)
+    public async Task<(string, DateTime)> CreateTokenAsync(LoginModel user)
     {
         return await Task.Run(() =>
         {
@@ -39,24 +39,25 @@ public class JWTService : IJWTService
                 _configuration.GetSection("JwtSettings:Key").Value));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
 
-            /*var token = new JwtSecurityToken(
+			/*var token = new JwtSecurityToken(
                 _configuration.GetSection("JwtSettings:Issuer").Value,
                 _configuration.GetSection("JwtSettings:Audience").Value,
                 claims: claims,
                 expires: DateTime.Now.AddMinutes(15),
                 signingCredentials: creds);*/
 
+			var jwtExpDate = DateTime.UtcNow.AddMinutes(70);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Issuer = _configuration.GetSection("JwtSettings:Issuer").Value,
                 Audience = _configuration.GetSection("JwtSettings:Audience").Value,
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddMinutes(70),
+                Expires = jwtExpDate,
                 SigningCredentials = creds,
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+            return (tokenHandler.WriteToken(token), jwtExpDate);
         });
 
     }
