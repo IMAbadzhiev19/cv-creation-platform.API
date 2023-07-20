@@ -2,14 +2,14 @@ name: Build and deploy .NET Core application to Web App resume-studio-api with A
 on:
   push:
     branches:
-    - main
+      - main
 env:
   AZURE_WEBAPP_NAME: ResumeStudioAPI
-  AZURE_WEBAPP_PACKAGE_PATH: .src\CVCreationPlatform.API\publish
-  SWASHBUCLE_ASPNET_CORE_CLI_PACKAGE_VERSION: 6.4.0
+  AZURE_WEBAPP_PACKAGE_PATH: ./src/CVCreationPlatform.API/publish
+  SWASHBUCKLE_ASPNET_CORE_CLI_PACKAGE_VERSION: 6.4.0
   SWASHBUCKLE_DOTNET_CORE_VERSION: 3.1.x
-  API_IMPORT_SPECIFICATION_PATH: ./src/CVCreationPlatform.API\publish\swagger.json
-  API_IMPORT_DLL: ./src/CVCreationPlatform.API\bin\Release\net6.0\CVCreationPlatform.API.dll
+  API_IMPORT_SPECIFICATION_PATH: ./src/CVCreationPlatform.API/publish/swagger.json
+  API_IMPORT_DLL: ./src/CVCreationPlatform.API/bin/Release/net6.0/CVCreationPlatform.API.dll
   API_IMPORT_VERSION: v1
   CONFIGURATION: Release
   DOTNET_CORE_VERSION: 6.0.x
@@ -18,86 +18,87 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: GenerateAppsettings
-      run: |
-        $appsettings = '
-        {
-          "AllowedHosts": "*",
-          "JwtSettings": {
-            "Issuer": "Me",
-            "Audience": "Audience",
-            "Key": ${{ secrets.SECRET_KEY }}
-          },
-          "Logging": {
-            "LogLevel": {
-              "Default": "Information",
-              "Microsoft.AspNetCore": "Warning"
-            }
-          },
-          "ConnectionStrings": {
-            "DefaultConnection": ${{ secrets.CONNECTION_STRING }}
-          },
-          "Azure": {
-            "TextAnalytics": {
-              "Endpoint": ${{ secrets.TEXT_ANALYTICS_ENDPOINT }},
-              "Key": ${{ secrets.TEXT_ANALYTICS_KEY }}
+      - uses: actions/checkout@v3
+      - name: GenerateAppsettings
+        run: |
+          $appsettings = '
+          {
+            "AllowedHosts": "*",
+            "JwtSettings": {
+              "Issuer": "Me",
+              "Audience": "Audience",
+              "Key": ${{ secrets.SECRET_KEY }}
             },
-            "CognitiveSearch": {
-              "Key": ${{ secrets.COGNITIVE_SEARCH_KEY }},
-              "IndexName": "azureblob-index",
-              "ServiceName": "azrescs"
+            "Logging": {
+              "LogLevel": {
+                "Default": "Information",
+                "Microsoft.AspNetCore": "Warning"
+              }
             },
-            "EmailClient": {
-              "ConnectionString": ${{ secrets.EMAIL_CONN_STRING }}
+            "ConnectionStrings": {
+              "DefaultConnection": ${{ secrets.CONNECTION_STRING }}
             },
-            "Storage": {
-              "StorageConnectionString": ${{ secrets.STORAGE_CONN_STRING }},
-              "ContainerName": "filescontainer"
+            "Azure": {
+              "TextAnalytics": {
+                "Endpoint": ${{ secrets.TEXT_ANALYTICS_ENDPOINT }},
+                "Key": ${{ secrets.TEXT_ANALYTICS_KEY }}
+              },
+              "CognitiveSearch": {
+                "Key": ${{ secrets.COGNITIVE_SEARCH_KEY }},
+                "IndexName": "azureblob-index",
+                "ServiceName": "azrescs"
+              },
+              "EmailClient": {
+                "ConnectionString": ${{ secrets.EMAIL_CONN_STRING }}
+              },
+              "Storage": {
+                "StorageConnectionString": ${{ secrets.STORAGE_CONN_STRING }},
+                "ContainerName": "filescontainer"
+              }
             }
           }
-        }
-        '
-        $appsettings | Out-File -FilePath ${{ env.WORKING_DIRECTORY }}\appsettings.json
-
-    - name: Setup .NET SDK
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
-    - name: Setup SwashBuckle .NET Core
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: ${{ env.SWASHBUCKLE_DOTNET_CORE_VERSION }}
-    - name: Restore
-      run: dotnet restore ${{ env.WORKING_DIRECTORY }}
-    - name: Build
-      run: dotnet build ${{ env.WORKING_DIRECTORY }} --configuration ${{ env.CONFIGURATION }} --no-restore
-    - name: Test
-      run: dotnet test ${{ env.WORKING_DIRECTORY }} --no-build
-    - name: Publish
-      run: dotnet publish ${{ env.WORKING_DIRECTORY }} --configuration ${{ env.CONFIGURATION }} --no-build --output ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-    - name: Install Swashbuckle CLI .NET Global Tool
-      run: dotnet tool install --global Swashbuckle.AspNetCore.Cli --version ${{ env.SWASHBUCLE_ASPNET_CORE_CLI_PACKAGE_VERSION }}
-      working-directory: ${{ env.WORKING_DIRECTORY }}
-    - name: Generate Open API Specification Document
-      run: swagger tofile --output "${{ env.API_IMPORT_SPECIFICATION_PATH }}" "${{ env.API_IMPORT_DLL }}" "${{ env.API_IMPORT_VERSION }}"
-    - name: Publish Artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: webapp
-        path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+          '
+          $appsettings | Out-File -FilePath ${{ env.WORKING_DIRECTORY }}/appsettings.json
+          Get-Content ${{ env.WORKING_DIRECTORY }}/appsettings.json
+          
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
+      - name: Setup SwashBuckle .NET Core
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ env.SWASHBUCKLE_DOTNET_CORE_VERSION }}
+      - name: Restore
+        run: dotnet restore ${{ env.WORKING_DIRECTORY }}
+      - name: Build
+        run: dotnet build ${{ env.WORKING_DIRECTORY }} --configuration ${{ env.CONFIGURATION }} --no-restore
+      - name: Test
+        run: dotnet test ${{ env.WORKING_DIRECTORY }} --no-build
+      - name: Publish
+        run: dotnet publish ${{ env.WORKING_DIRECTORY }} --configuration ${{ env.CONFIGURATION }} --no-build --output ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+      - name: Install Swashbuckle CLI .NET Global Tool
+        run: dotnet tool install --global Swashbuckle.AspNetCore.Cli --version ${{ env.SWASHBUCKLE_ASPNET_CORE_CLI_PACKAGE_VERSION }}
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+      - name: Generate Open API Specification Document
+        run: swagger tofile --output "${{ env.API_IMPORT_SPECIFICATION_PATH }}" "${{ env.API_IMPORT_DLL }}" "${{ env.API_IMPORT_VERSION }}"
+      - name: Publish Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: webapp
+          path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
   deploy:
     runs-on: windows-latest
     needs: build
     steps:
-    - name: Download artifact from build job
-      uses: actions/download-artifact@v3
-      with:
-        name: webapp
-        path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-    - name: Deploy to Azure WebApp
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: ${{ env.AZURE_WEBAPP_NAME }}
-        publish-profile: ${{ secrets.ResumeStudioAPI_3EFA }}
-        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+          name: webapp
+          path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+      - name: Deploy to Azure WebApp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.ResumeStudioAPI_3EFA }}
+          package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
