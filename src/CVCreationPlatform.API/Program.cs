@@ -82,7 +82,7 @@ namespace CVCreationPlatform.API
 			builder.Services.AddCors(options => {
 				options.AddDefaultPolicy(builder =>
 				{
-					builder.WithOrigins("https://localhost:4000", "http://localhost:4000")
+					builder.WithOrigins("www.resumes.studio", "resumes.studio")
                     .AllowAnyMethod()
                     .AllowAnyHeader();
                 });
