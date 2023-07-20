@@ -1,19 +1,24 @@
-name: Publish
+name: Build and deploy .NET Core application to Web App resume-studio-api with API Management Service CVCreationPlatformAPIapi-CVCreationPlatformAPI
 on:
   push:
     branches:
     - main
 env:
-  AZURE_WEBAPP_NAME: ResumeStudioAPI
-  AZURE_WEBAPP_PACKAGE_PATH: .src\CVCreationPlatform.API\publish
+  AZURE_WEBAPP_NAME: resume-studio-api
+  AZURE_WEBAPP_PACKAGE_PATH: CVCreationPlatform.API\publish
+  AZURE_APIM_RESOURCE_PATH: /
+  AZURE_APIM_RESOURCEGROUP: ResumeAPI
+  AZURE_APIM_SERVICENAME: CVCreationPlatformAPIapi
+  AZURE_APIM_API_ID: CVCreationPlatformAPI
+  AZURE_APIM_APPSERVICEURL: ''
+  SWASHBUCLE_ASPNET_CORE_CLI_PACKAGE_VERSION: 5.6.3
+  SWASHBUCKLE_DOTNET_CORE_VERSION: 3.1.x
+  API_IMPORT_SPECIFICATION_PATH: ./src/CVCreationPlatform.API\publish\swagger.json
+  API_IMPORT_DLL: ./src/CVCreationPlatform.API\bin\Release\net6.0\CVCreationPlatform.API.dll
+  API_IMPORT_VERSION: v1
   CONFIGURATION: Release
   DOTNET_CORE_VERSION: 6.0.x
   WORKING_DIRECTORY: ./src/CVCreationPlatform.API
-  API_IMPORT_SPECIFICATION_PATH: .src\CVCreationPlatform.API\publish\swagger.json
-  API_IMPORT_DLL: .src\CVCreationPlatform.API\bin\Release\net6.0\CVCreationPlatform.API.dll
-  API_IMPORT_VERSION: v1
-  SWASHBUCLE_ASPNET_CORE_CLI_PACKAGE_VERSION: 6.4.0
-  SWASHBUCKLE_DOTNET_CORE_VERSION: 3.1.x
 jobs:
   build:
     runs-on: windows-latest
@@ -57,16 +62,15 @@ jobs:
             }
           }
         }
-
         '
         $appsettings | Out-File -FilePath ${{ env.WORKING_DIRECTORY }}\appsettings.json
 
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v3
       with:
         dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
     - name: Setup SwashBuckle .NET Core
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v3
       with:
         dotnet-version: ${{ env.SWASHBUCKLE_DOTNET_CORE_VERSION }}
     - name: Restore
@@ -81,7 +85,7 @@ jobs:
       run: dotnet tool install --global Swashbuckle.AspNetCore.Cli --version ${{ env.SWASHBUCLE_ASPNET_CORE_CLI_PACKAGE_VERSION }}
       working-directory: ${{ env.WORKING_DIRECTORY }}
     - name: Publish Artifacts
-      uses: actions/upload-artifact@v1.0.0
+      uses: actions/upload-artifact@v3
       with:
         name: webapp
         path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
@@ -98,5 +102,5 @@ jobs:
       uses: azure/webapps-deploy@v2
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
-        publish-profile: ${{ secrets.ResumeStudioAPI_3EFA }}
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+        publish-profile: ${{ secrets.ResumeStudioAPI_3EFA }}

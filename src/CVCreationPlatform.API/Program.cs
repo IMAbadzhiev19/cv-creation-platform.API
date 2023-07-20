@@ -90,16 +90,19 @@ namespace CVCreationPlatform.API
 
 			var app = builder.Build();
 
+            app.UseSwagger();
+
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
-                app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            else
+            {
+                app.UseHttpsRedirection();
+            }
 
-            app.UseHttpsRedirection();
-
-			app.UseCors();
+            app.UseCors();
 
 			app.UseAuthentication();
 			app.UseAuthorization();
