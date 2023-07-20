@@ -59,6 +59,7 @@ jobs:
           }
           '
           $appsettings | Out-File -FilePath ${{ env.WORKING_DIRECTORY }}/appsettings.json
+          $appsettings | Out-File -FilePath D:\a\cv-creation-platform.API\cv-creation-platform.API\appsettings.json
           Get-Content ${{ env.WORKING_DIRECTORY }}/appsettings.json
           
       - name: Setup .NET SDK
