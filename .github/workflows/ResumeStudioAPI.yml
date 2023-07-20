@@ -12,6 +12,8 @@ env:
   API_IMPORT_SPECIFICATION_PATH: .src\CVCreationPlatform.API\publish\swagger.json
   API_IMPORT_DLL: .src\CVCreationPlatform.API\bin\Release\net6.0\CVCreationPlatform.API.dll
   API_IMPORT_VERSION: v1
+  SWASHBUCLE_ASPNET_CORE_CLI_PACKAGE_VERSION: 6.4.0
+  SWASHBUCKLE_DOTNET_CORE_VERSION: 3.1.x
 jobs:
   build:
     runs-on: windows-latest
