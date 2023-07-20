@@ -18,7 +18,7 @@ env:
   API_IMPORT_VERSION: v1
   CONFIGURATION: Release
   DOTNET_CORE_VERSION: 6.0.x
-  WORKING_DIRECTORY: CVCreationPlatform.API
+  WORKING_DIRECTORY: ./src/CVCreationPlatform.API
 jobs:
   build:
     runs-on: windows-latest
