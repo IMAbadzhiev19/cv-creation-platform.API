@@ -42,6 +42,11 @@ public class CvService : ICvService
         resume.Title = newResumeModel.Title;
         resume.CreationDate = newResumeModel.CreationDate;
 
+        if (string.IsNullOrEmpty(photoUrl))
+            if (resume.PersonalInfo != null)
+                if (resume.PersonalInfo.PhotoUrl != null)
+                    photoUrl = resume.PersonalInfo.PhotoUrl;
+
         if (newResumeModel.PersonalInfo != null)
         {
             if (resume.PersonalInfo == null)
