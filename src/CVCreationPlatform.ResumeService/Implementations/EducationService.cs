@@ -18,7 +18,22 @@ public class EducationService : IEducationService
         var resume = await _context.Resumes.FirstOrDefaultAsync(r => r.Id == resumeId);
         if (resume == null)
             throw new ArgumentException("Invalid education id");
-
+        DateTime? startDate = null;
+        DateTime? endDate = null;
+        if (educationDTO.StartDate != null)
+        {
+            bool isStartDateParsed = DateTime.TryParse(educationDTO.StartDate, out DateTime parsedStartDate);
+            if (!isStartDateParsed)
+                throw new ArgumentException("Invalid date format");
+            startDate = parsedStartDate;
+        }
+        if (educationDTO.EndDate != null)
+        {
+            bool isEndDateParsed = DateTime.TryParse(educationDTO.EndDate, out DateTime parsedEndDate);
+            if (!isEndDateParsed)
+                throw new ArgumentException("Invalid date format");
+            endDate = parsedEndDate;
+        }
         var educationToAdd = new Education
         {
             ResumeId = resume.Id,
@@ -26,8 +41,8 @@ public class EducationService : IEducationService
             InstituteName = educationDTO.InstituteName,
             Degree = educationDTO.Degree,
             FieldOfStudy = educationDTO.FieldOfStudy,
-            StartDate = educationDTO.StartDate,
-            EndDate = educationDTO.EndDate
+            StartDate = startDate,
+            EndDate = endDate
         };
 
         resume.Educations.Add(educationToAdd);
@@ -42,12 +57,27 @@ public class EducationService : IEducationService
         var education = await _context.Educations.FindAsync(educationId);
         if (education == null)
             throw new ArgumentException("Invalid education id");
-
+        DateTime? startDate = null;
+        DateTime? endDate = null;
+        if (newEducationDTO.StartDate != null)
+        {
+            bool isStartDateParsed = DateTime.TryParse(newEducationDTO.StartDate, out DateTime parsedStartDate);
+            if (!isStartDateParsed)
+                throw new ArgumentException("Invalid date format");
+            startDate = parsedStartDate;
+        }
+        if (newEducationDTO.EndDate != null)
+        {
+            bool isEndDateParsed = DateTime.TryParse(newEducationDTO.EndDate, out DateTime parsedEndDate);
+            if (!isEndDateParsed)
+                throw new ArgumentException("Invalid date format");
+            endDate = parsedEndDate;
+        }
         education.InstituteName = newEducationDTO.InstituteName;
         education.Degree = newEducationDTO.Degree;
         education.FieldOfStudy = newEducationDTO.FieldOfStudy;
-        education.StartDate = newEducationDTO.StartDate;
-        education.EndDate = newEducationDTO.EndDate;
+        education.StartDate = startDate;
+        education.EndDate = endDate;
 
         await _context.SaveChangesAsync();
         return true;

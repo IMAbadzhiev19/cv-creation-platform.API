@@ -40,7 +40,7 @@ public class CvService : ICvService
             throw new ArgumentException("Invalid resume id");
 
         resume.Title = newResumeModel.Title;
-        resume.CreationDate = newResumeModel.CreationDate;
+        resume.CreationDate = DateTime.UtcNow;
 
         if (string.IsNullOrEmpty(photoUrl))
             if (resume.PersonalInfo != null)
@@ -63,12 +63,28 @@ public class CvService : ICvService
 
         if (newResumeModel.UnknownSection != null)
         {
+            DateTime? startDate = null;
+            DateTime? endDate = null;
+            if (newResumeModel.UnknownSection.StartDate != null)
+            {
+                bool isStartDateParsed = DateTime.TryParse(newResumeModel.UnknownSection.StartDate, out DateTime parsedStartDate);
+                if (!isStartDateParsed)
+                    throw new ArgumentException("Invalid date format");
+                startDate = parsedStartDate;
+            }
+            if (newResumeModel.UnknownSection.EndDate != null)
+            {
+                bool isEndDateParsed = DateTime.TryParse(newResumeModel.UnknownSection.EndDate, out DateTime parsedEndDate);
+                if (!isEndDateParsed)
+                    throw new ArgumentException("Invalid date format");
+                endDate = parsedEndDate;
+            }
             if (resume.UnknownSection == null)
                 resume.UnknownSection = new UnknownSection();
             resume.UnknownSection.Title = newResumeModel.UnknownSection.Title;
             resume.UnknownSection.Description = newResumeModel.UnknownSection.Description;
-            resume.UnknownSection.StartDate = newResumeModel.UnknownSection.StartDate;
-            resume.UnknownSection.EndDate = newResumeModel.UnknownSection.EndDate;
+            resume.UnknownSection.StartDate = startDate;
+            resume.UnknownSection.EndDate = endDate;
         }
 
         if (newResumeModel.Template != null)
@@ -187,7 +203,7 @@ public class CvService : ICvService
                 Id = Guid.NewGuid(),
                 UserId = resumeModel.UserId,
                 Title = resumeModel.Title,
-                CreationDate = resumeModel.CreationDate,
+                CreationDate = DateTime.UtcNow
             };
 
             if (resumeModel.PersonalInfo != null)
@@ -209,12 +225,28 @@ public class CvService : ICvService
 
             if (resumeModel.UnknownSection != null)
             {
+                DateTime? startDate = null;
+                DateTime? endDate = null;
+                if (resumeModel.UnknownSection.StartDate != null)
+                {
+                    bool isStartDateParsed = DateTime.TryParse(resumeModel.UnknownSection.StartDate, out DateTime parsedStartDate);
+                    if (!isStartDateParsed)
+                        throw new ArgumentException("Invalid date format");
+                    startDate = parsedStartDate;
+                }
+                if (resumeModel.UnknownSection.EndDate != null)
+                {
+                    bool isEndDateParsed = DateTime.TryParse(resumeModel.UnknownSection.EndDate, out DateTime parsedEndDate);
+                    if (!isEndDateParsed)
+                        throw new ArgumentException("Invalid date format");
+                    endDate = parsedEndDate;
+                }
                 initialResume.UnknownSection = new UnknownSection
                 {
                     Title = resumeModel.UnknownSection.Title,
                     Description = resumeModel.UnknownSection.Description,
-                    StartDate = resumeModel.UnknownSection.StartDate,
-                    EndDate = resumeModel.UnknownSection.EndDate,
+                    StartDate = startDate,
+                    EndDate = endDate,
                     ResumeId = initialResume.Id,
                     Resume = initialResume
                 };

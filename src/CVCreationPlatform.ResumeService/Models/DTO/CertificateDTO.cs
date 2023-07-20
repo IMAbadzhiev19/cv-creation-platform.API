@@ -6,6 +6,6 @@
 
         public string? IssuingOrganization { get; set; }
 
-        public DateTime? IssueDate { get; set; }
+        public string? IssueDate { get; set; }
     }
 }

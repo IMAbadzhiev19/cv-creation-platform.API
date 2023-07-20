@@ -6,8 +6,6 @@
 
         public string? Title { get; set; }
 
-        public DateTime CreationDate { get; set; }
-
         public PersonalInfoDTO? PersonalInfo { get; set; }
 
         public UnknownSectionDTO? UnknownSection { get; set; }
