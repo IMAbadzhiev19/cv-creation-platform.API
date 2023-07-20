@@ -4,14 +4,9 @@ on:
     branches:
     - main
 env:
-  AZURE_WEBAPP_NAME: resume-studio-api
-  AZURE_WEBAPP_PACKAGE_PATH: CVCreationPlatform.API\publish
-  AZURE_APIM_RESOURCE_PATH: /
-  AZURE_APIM_RESOURCEGROUP: ResumeAPI
-  AZURE_APIM_SERVICENAME: CVCreationPlatformAPIapi
-  AZURE_APIM_API_ID: CVCreationPlatformAPI
-  AZURE_APIM_APPSERVICEURL: ''
-  SWASHBUCLE_ASPNET_CORE_CLI_PACKAGE_VERSION: 5.6.3
+  AZURE_WEBAPP_NAME: ResumeStudioAPI
+  AZURE_WEBAPP_PACKAGE_PATH: .src\CVCreationPlatform.API\publish
+  SWASHBUCLE_ASPNET_CORE_CLI_PACKAGE_VERSION: 6.4.0
   SWASHBUCKLE_DOTNET_CORE_VERSION: 3.1.x
   API_IMPORT_SPECIFICATION_PATH: ./src/CVCreationPlatform.API\publish\swagger.json
   API_IMPORT_DLL: ./src/CVCreationPlatform.API\bin\Release\net6.0\CVCreationPlatform.API.dll
@@ -102,5 +97,5 @@ jobs:
       uses: azure/webapps-deploy@v2
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
-        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
         publish-profile: ${{ secrets.ResumeStudioAPI_3EFA }}
+        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
