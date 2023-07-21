@@ -1,19 +1,19 @@
-name: Build and deploy .NET Core application to Web App resume-studio-api with API Management Service CVCreationPlatformAPIapi-CVCreationPlatformAPI
+name: Build and deploy .NET Core application to Web App CVCreationPlatformAPI20230720221222
 on:
   push:
     branches:
-      - main
+    - main
 env:
   AZURE_WEBAPP_NAME: ResumeStudioAPI
-  AZURE_WEBAPP_PACKAGE_PATH: ./src/CVCreationPlatform.API/publish
-  SWASHBUCKLE_ASPNET_CORE_CLI_PACKAGE_VERSION: 6.4.0
+  AZURE_WEBAPP_PACKAGE_PATH: CVCreationPlatform.API/publish
+  SWASHBUCLE_ASPNET_CORE_CLI_PACKAGE_VERSION: 5.6.3
   SWASHBUCKLE_DOTNET_CORE_VERSION: 3.1.x
-  API_IMPORT_SPECIFICATION_PATH: ./src/CVCreationPlatform.API/publish/swagger.json
-  API_IMPORT_DLL: ./src/CVCreationPlatform.API/bin/Release/net6.0/CVCreationPlatform.API.dll
+  API_IMPORT_SPECIFICATION_PATH: src\CVCreationPlatform.API/publish/swagger.json
+  API_IMPORT_DLL: src\CVCreationPlatform.API/bin/Release/net6.0/CVCreationPlatform.API.dll
   API_IMPORT_VERSION: v1
   CONFIGURATION: Release
   DOTNET_CORE_VERSION: 6.0.x
-  WORKING_DIRECTORY: ./src/CVCreationPlatform.API
+  WORKING_DIRECTORY: src\CVCreationPlatform.API
 jobs:
   build:
     runs-on: windows-latest
@@ -101,5 +101,5 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          publish-profile: ${{ secrets.ResumeStudioAPI_3EFA }}
+          publish-profile: ${{ secrets.CVCreationPlatformAPI20230720221222_831C }}
           package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
