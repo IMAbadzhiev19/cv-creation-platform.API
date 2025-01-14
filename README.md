@@ -13,7 +13,7 @@ An API designed to power a resume management platform, providing functionality f
 
 ## Tech Stack
 
-- **Backend:** .NET Core, Entity Framework Core
+- **Backend:** .NET Core, ASP.NET Web API, Entity Framework Core
 - **Database:** MS SQL Server
 - **Authentication:** JWT
 - **API Documentation:** Swagger
